@@ -3,28 +3,29 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const eslintFormater = require('eslint-friendly-formatter');
 
 const plugins = [
   new CleanWebpackPlugin(['dist']),
 
   new webpack.ProvidePlugin({
     _: 'lodash',
-    classnames: 'classnames'
+    classnames: 'classnames',
   }),
 
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-    }
+    },
   }),
 
   new HtmlWebpackPlugin({
-    template: './index.html'
+    template: './index.html',
   }),
 
   new CopyWebpackPlugin([
-    {from: './server.js'},
-  ])
+    { from: './server.js' },
+  ]),
 ];
 
 module.exports = {
@@ -37,11 +38,11 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
-    publicPath: '/'
+    // publicPath: '/blfc',
   },
 
   devServer: {
-    contentBase: './dist'
+    contentBase: './dist',
   },
 
   module: {
@@ -53,17 +54,17 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: ['env']
-            }
+              presets: ['env'],
+            },
           },
           {
             loader: 'eslint-loader',
             options: {
               enforce: 'pre',
-              formatter: require('eslint-friendly-formatter')
-            }
-          }
-        ]
+              formatter: eslintFormater,
+            },
+          },
+        ],
       },
 
       {
@@ -71,8 +72,8 @@ module.exports = {
         loader: 'url-loader',
         options: {
           outputPath: './img/',
-          limit: 100000
-        }
+          limit: 100000,
+        },
       },
 
       {
@@ -80,30 +81,30 @@ module.exports = {
         loader: 'url-loader',
         options: {
           outputPath: './fonts/',
-          limit: 100000
-        }
+          limit: 100000,
+        },
       },
 
       {
         test: /\.(css)$/,
         use: [{
-          loader: 'style-loader' // creates style nodes from JS strings
+          loader: 'style-loader', // creates style nodes from JS strings
         }, {
-          loader: 'css-loader' // translates CSS into CommonJS
-        }]
+          loader: 'css-loader', // translates CSS into CommonJS
+        }],
       },
 
       {
         test: /\.(sass|scss)$/,
         use: [{
-          loader: 'style-loader' // creates style nodes from JS strings
+          loader: 'style-loader', // creates style nodes from JS strings
         }, {
-          loader: 'css-loader' // translates CSS into CommonJS
+          loader: 'css-loader', // translates CSS into CommonJS
         }, {
-          loader: 'sass-loader' // compiles Sass to CSS
-        }]
-      }
-    ]
+          loader: 'sass-loader', // compiles Sass to CSS
+        }],
+      },
+    ],
   },
 
   plugins,
@@ -113,9 +114,9 @@ module.exports = {
     alias: {
       core: path.resolve(__dirname, 'src/core'),
       components: path.resolve(__dirname, './src/components'),
-      img: path.resolve(__dirname, 'img')
-    }
+      img: path.resolve(__dirname, 'img'),
+    },
   },
 
-  devtool: 'source-map'
+  devtool: 'source-map',
 };
