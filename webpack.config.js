@@ -38,11 +38,13 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
-    // publicPath: '/blfc',
+    publicPath: '/blfc',
   },
 
   devServer: {
     contentBase: './dist',
+    publicPath: '/blfc',
+    openPage: 'blfc',
   },
 
   module: {
