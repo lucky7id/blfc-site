@@ -26,6 +26,10 @@ const plugins = [
   new CopyWebpackPlugin([
     { from: './server.js' },
   ]),
+
+  new CopyWebpackPlugin([
+    { from: './img', to: 'img'},
+  ]),
 ];
 
 module.exports = {
@@ -113,11 +117,6 @@ module.exports = {
 
   resolve: {
     extensions: ['.js'],
-    alias: {
-      core: path.resolve(__dirname, 'src/core'),
-      components: path.resolve(__dirname, './src/components'),
-      img: path.resolve(__dirname, 'img'),
-    },
   },
 
   devtool: 'source-map',
