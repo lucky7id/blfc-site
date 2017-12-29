@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/lucky7id/blfc-site#readme",
   "dependencies": {
+    "bootstrap": "^4.0.0-beta.3",
     "express": "^4.16.2",
     "jquery": "^3.2.1"
   },
