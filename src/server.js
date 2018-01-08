@@ -21,6 +21,7 @@ const square = new SquareConnect.CheckoutApi();
 oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
 
 const errorHandler = (err, req, res, next) => {
+  console.error(err);
   res.status(500).send({error: err.message || err});
 };
 
@@ -80,9 +81,7 @@ blfc.post('/riders', (req, res, next) => {
     .then(dbRes => {
       if (moment(birth_date, 'MM-DD-YYYY').isAfter(minAge)) return res.send({status: 'not-21'});
 
-      const sqReq = square.createCheckout(process.env.SQUARE_LOCATION_ID, createOrder(tipAmount, id, email));
-      console.log(sqReq);
-      return sqReq
+      return square.createCheckout(process.env.SQUARE_LOCATION_ID, createOrder(tipAmount, id, email));
     })
     .then(squareRes => {
       console.log(squareRes);
