@@ -19,8 +19,6 @@ class Db {
     return this.getQuery(options);
   }
 
-  get
-
   addRider(rider) {
     const options = {
       sql: 'INSERT INTO riders SET ?',
