@@ -4,10 +4,15 @@ const nodemailer = require('nodemailer');
 class Mailer {
   constructor() {
     this.transporter = nodemailer.createTransport({
-      type: 'OAuth2',
-      user: process.env.MAIL_USER,
-      serviceClient: process.env.MAIL_CLIENT,
-      privateKey: process.env.MAIL_KEY,
+      host: 'smtp.google.com',
+      port: 465,
+      secure: true,
+      auth: {
+        type: 'OAuth2',
+        user: process.env.MAIL_USER,
+        serviceClient: process.env.MAIL_CLIENT,
+        privateKey: process.env.MAIL_KEY,
+      },
     });
   }
 
