@@ -46,7 +46,7 @@ class Db {
         console.log({e, res})
         if (e) return reject(e);
 
-        return resolve(e);
+        return resolve(res);
       });
     });
   }

@@ -82,7 +82,9 @@ blfc.post('/riders', (req, res, next) => {
   db.addRider({id, name, char_name, email, birth_date, twitter, telegram, tip})
     .then(dbRes => {
       if (moment(birth_date).isAfter(minAge)) return res.send({status: 'not-21'});
-      
+
+      console.log(createOrder(tipAmount, id, email));
+
       return square.createCheckout(process.env.SQUARE_LOCATION_ID, createOrder(tipAmount, id, email));
     })
     .then(squareRes => {
