@@ -38,7 +38,7 @@ const createOrder = (tip, id, email) => ({
         name: 'Seat Reservation',
         quantity: '1',
         base_price_money: {
-          amount: 70,
+          amount: 70 * 100,
           currency: 'USD'
         }
       },
@@ -46,7 +46,7 @@ const createOrder = (tip, id, email) => ({
         name: 'Tip',
         quantity: '1',
         base_price_money: {
-          amount: tip,
+          amount: tip * 100,
           currency: 'USD'
         }
       }
