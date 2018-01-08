@@ -19,7 +19,7 @@ const square = new SquareConnect.CheckoutApi();
 
 oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
 
-const errorHandler = (err, req, res) => {
+const errorHandler = (err, req, res, next) => {
   res.status(500).send({error: err.message || err});
 };
 
