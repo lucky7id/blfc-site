@@ -25,18 +25,18 @@ const errorHandler = (err, req, res, next) => {
 };
 
 const createOrder = (tip, id, email) => ({
-  idempotencyKey: id,
-  askForShippingAddress: false,
-  merchantSupportEmail: 'blfcbaybus@gmail.com',
-  prePopulateBuyerEmail: email,
-  redirectUrl: 'http://api.yukine.me/blfc/confirm',
+  idempotency_key: id,
+  ask_for_shipping_address: false,
+  merchant_support_email: 'blfcbaybus@gmail.com',
+  pre_populate_buyer_email: email,
+  redirect_url: 'http://api.yukine.me/blfc/confirm',
   order: {
-    referenceId: id,
-    lineItems: [
+    reference_id: id,
+    line_items: [
       {
         name: 'Seat Reservation',
         quantity: '1',
-        basePriceMoney: {
+        base_price_money: {
           amount: 70,
           currency: 'USD'
         }
@@ -44,7 +44,7 @@ const createOrder = (tip, id, email) => ({
       {
         name: 'Tip',
         quantity: tip ? '1' : '0',
-        basePriceMoney: {
+        base_price_money: {
           amount: tip,
           currency: 'USD'
         }
@@ -78,7 +78,7 @@ blfc.post('/riders', (req, res, next) => {
 
   db.addRider({id, name, char_name, email, birth_date, twitter, telegram, tip})
     .then(dbRes => {
-      if (moment(birth_date).isAfter(minAge)) return res.send({status: 'not-21'});
+      if (moment(birth_date, 'MM-DD-YYYY').isAfter(minAge)) return res.send({status: 'not-21'});
 
       console.log(createOrder(tipAmount, id, email));
 
