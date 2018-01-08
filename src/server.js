@@ -24,36 +24,34 @@ const errorHandler = (err, req, res, next) => {
   res.status(500).send({error: err.message || err});
 };
 
-const createOrder = (tip, id, email) => {
-  return SquareConnect.CreateCheckoutRequest({
-    idempotencyKey: id,
-    askForShippingAddress: false,
-    merchantSupportEmail: 'blfcbaybus@gmail.com',
-    prePopulateBuyerEmail: email,
-    redirectUrl: 'http://api.yukine.me/blfc/confirm',
-    order: SquareConnect.CreateOrderRequest({
-      referenceId: id,
-      lineItems: [
-        {
-          name: 'Seat Reservation',
-          quantity: '1',
-          basePriceMoney: {
-            amount: 70,
-            currency: 'USD'
-          }
-        },
-        {
-          name: 'Tip',
-          quantity: tip ? '1' : '0',
-          basePriceMoney: {
-            amount: tip,
-            currency: 'USD'
-          }
+const createOrder = (tip, id, email) => ({
+  idempotencyKey: id,
+  askForShippingAddress: false,
+  merchantSupportEmail: 'blfcbaybus@gmail.com',
+  prePopulateBuyerEmail: email,
+  redirectUrl: 'http://api.yukine.me/blfc/confirm',
+  order: {
+    referenceId: id,
+    lineItems: [
+      {
+        name: 'Seat Reservation',
+        quantity: '1',
+        basePriceMoney: {
+          amount: 70,
+          currency: 'USD'
         }
-      ]
-    })
-  });
-};
+      },
+      {
+        name: 'Tip',
+        quantity: tip ? '1' : '0',
+        basePriceMoney: {
+          amount: tip,
+          currency: 'USD'
+        }
+      }
+    ]
+  }
+});
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -61,7 +59,6 @@ app.use(bodyParser.json());
 blfc.get('/riders', (req, res, next) => {
   db.getRiders()
     .then(riders => {
-      console.log(riders);
       res.send(riders);
     })
     .catch(next)
