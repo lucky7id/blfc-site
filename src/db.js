@@ -30,7 +30,7 @@ class Db {
 
   getConfirmedCount() {
     const options = {
-      sql: 'SELECT COUNT(*) FROM riders WHERE ?',
+      sql: 'SELECT * FROM riders WHERE ?',
       values: [{confirmed: 1}]
     }
 
