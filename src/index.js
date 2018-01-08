@@ -1,17 +1,17 @@
-import './styles/style.sass';
 import $ from 'jquery';
+import './styles/style.sass';
 
 const handleSubmit = () => {
   const $form = $('#reserve-form');
   const data = $form.serialize();
 
-  console.log(data);
+  console.log(data); //eslint-disable-line
 
   $.post('http://api.yukine.me/blfc/riders', data)
     .then((res) => {
-      console.log(res);
+      console.log(res); //eslint-disable-line
     })
-    .catch(console.error);
+    .catch(console.error); //eslint-disable-line
 };
 
 const init = () => {
