@@ -44,7 +44,7 @@ const createOrder = (tip, id, email) => ({
       },
       {
         name: 'Tip',
-        quantity: tip ? '1' : '0',
+        quantity: '1',
         base_price_money: {
           amount: tip,
           currency: 'USD'
