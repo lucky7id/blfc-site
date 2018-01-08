@@ -12,6 +12,7 @@ const Db = require('./db');
 
 // instances
 const app = express();
+const blfc = express.Router();
 const db = new Db();
 const defaultClient = SquareConnect.ApiClient.instance;
 const oauth2 = defaultClient.authentications['oauth2'];
@@ -57,7 +58,7 @@ const createOrder = (tip, id, email) => {
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
-app.get('/riders', (req, res, next) => {
+blfc.get('/riders', (req, res, next) => {
   db.getRiders()
     .then(riders => {
       req.send(riders);
@@ -65,7 +66,7 @@ app.get('/riders', (req, res, next) => {
     .catch(next)
 });
 
-app.post('/riders', (req, res, next) => {
+blfc.post('/riders', (req, res, next) => {
   const minAge = moment().set('y', 2018).set('M', 5).set('d', 8).subtract(21, 'y');
   const id = uuid();
   const {name, char_name, email, verify_email, birth_date, twitter, telegram, tip} = req.body;
@@ -93,7 +94,7 @@ app.post('/riders', (req, res, next) => {
     .catch(next);
 });
 
-app.get('/confirm', (req, res, next) => {
+blfc.get('/confirm', (req, res, next) => {
   console.log(req.query);
 
   if (true) return;
@@ -105,5 +106,6 @@ app.get('/confirm', (req, res, next) => {
     .catch(next);
 });
 
+app.use('/blfc', blfc);
 app.use(errorHandler);
 app.listen(4000, () => console.log('server started on 4000'));
