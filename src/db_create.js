@@ -1,5 +1,6 @@
 require('dotenv').config();
 const mysql = require('mysql');
+
 const sql = `
 CREATE TABLE IF NOT EXISTS riders (
   id VARCHAR(255) PRIMARY KEY,
@@ -17,13 +18,12 @@ CREATE TABLE IF NOT EXISTS riders (
   transaction_id VARCHAR(255) DEFAULT NULL,
   show_twitter BOOLEAN DEFAULT TRUE,
   show_telegram BOOLEAN DEFAULT TRUE
-)ENGINE=InnoDB
-`;
+)ENGINE=InnoDB`;
 
 const connection = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
-  database: process.env.DB_NAME
+  database: process.env.DB_NAME,
 });
 
 connection.query(sql, (e, results, fields) => {

@@ -15,7 +15,7 @@ const app = express();
 const blfc = express.Router();
 const db = new Db();
 const defaultClient = SquareConnect.ApiClient.instance;
-const oauth2 = defaultClient.authentications['oauth2'];
+const { oauth2 } = defaultClient.authentications;
 const square = new SquareConnect.CheckoutApi();
 
 oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
@@ -37,62 +37,73 @@ const createOrder = (tip, id, email) => ({
         quantity: '1',
         base_price_money: {
           amount: 70 * 100,
-          currency: 'USD'
-        }
+          currency: 'USD',
+        },
       },
       {
         name: 'Tip',
         quantity: '1',
         base_price_money: {
           amount: tip * 100,
-          currency: 'USD'
-        }
-      }
-    ]
-  }
+          currency: 'USD',
+        },
+      },
+    ],
+  },
 });
 
 blfc.get('/riders', (req, res, next) => {
   db.getRiders()
-    .then(riders => {
+    .then((riders) => {
       res.send(riders);
     })
-    .catch(next)
+    .catch(next);
 });
 
 blfc.post('/riders', (req, res, next) => {
-  const minAge = moment().set('y', 2018).set('M', 5).set('d', 8).subtract(21, 'y');
   const id = uuid();
-  const {name, char_name, email, verify_email, birth_date, twitter, telegram, tip} = req.body;
+  const {
+    name, char_name, email, verify_email, birth_date, twitter, telegram, tip,
+  } = req.body;
   const tipAmount = tip ? 0 : parseInt(tip, 10);
+  const minAge = moment()
+    .set('y', 2018)
+    .set('M', 5)
+    .set('d', 8)
+    .subtract(21, 'y');
 
   if (!name) return next('Name is required.');
   if (!char_name) return next('Character name is required. This will be used as your display name.');
   if (!email) return next('A valid email is required. Confirmation will be sent to this address.');
   if (email !== verify_email) return next('Provided emails do not match.');
   if (!birth_date) return next('Date of Birth is required.');
-  
-  db.getByEmail({email})
-    .then(rider => {
+
+  return db.getByEmail({ email })
+    .then((rider) => {
       if (rider && rider.length) throw new Error('email-found');
 
-      return db.addRider({ id, name, char_name, email, birth_date, twitter, telegram, tip });
+      return db.addRider({
+        id, name, char_name, email, birth_date, twitter, telegram, tip,
+      });
     })
-    .then(dbRes => {
+    .then(() => {
       if (moment(birth_date, 'MM-DD-YYYY').isAfter(minAge)) throw new Error('not-21');
-      
+
       return db.getConfirmedCount();
     })
-    .then(rows => {
+    .then((rows) => {
       if (!rows || rows.length >= 1) throw new Error('bus-full');
 
-      return square.createCheckout(process.env.SQUARE_LOCATION_ID, createOrder(tipAmount, id, email));
+      return square.createCheckout(
+        process.env.SQUARE_LOCATION_ID,
+        createOrder(tipAmount, id, email)
+      );
     })
-    .then(squareRes => {
+    .then((squareRes) => {
       console.log(squareRes.checkout, squareRes.checkout.order);
       if (!squareRes.checkout.id) return next('Could not get valid square id');
-      
-      db.updateUser({checkout_id: squareRes.checkout.id, tip: tipAmount}, {id})
+
+      return db.updateUser({ checkout_id: squareRes.checkout.id, tip: tipAmount }, { id })
         .then(() => res.redirect(squareRes.checkout.checkout_page_url))
         .catch(next);
     })
@@ -104,8 +115,8 @@ blfc.get('/confirm', (req, res, next) => {
 
   if (true) return;
 
-  db.updateUser({confirmed: true})
-    .then(dbRes => {
+  db.updateUser({ confirmed: true })
+    .then(() => {
       res.redirect(`http://yukine.me/blfc/?confirmed=true&cid=${req.query.referenceId}`);
     })
     .catch(next);
@@ -122,7 +133,7 @@ const errorHandler = function errorHandler(err, req, res, next) {
     return res.send({ status: 'not-21' });
   }
 
-  res.status(500).send({ error: err.message || err });
+  return res.status(500).send({ error: err.message || err });
 };
 
 app.use('/blfc', blfc);
