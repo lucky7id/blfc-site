@@ -106,3 +106,4 @@ app.get('/confirm', (req, res, next) => {
 });
 
 app.use(errorHandler);
+app.listen(4000, () => console.log('server started on 4000'));
