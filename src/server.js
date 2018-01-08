@@ -83,10 +83,7 @@ blfc.post('/riders', (req, res, next) => {
       
       return db.getConfirmedCount();
     })
-    .then(count => {
-      console.log(count);
-      console.dir(count);
-      
+    .then(([count]) => {
       if (parseInt(count, 10) >= 1) throw new Error('bus-full');
 
       return square.createCheckout(process.env.SQUARE_LOCATION_ID, createOrder(tipAmount, id, email));

@@ -30,8 +30,8 @@ class Db {
 
   getConfirmedCount() {
     const options = {
-      sql: 'SELECT COUNT(*) WHERE ?',
-      values: [{confirmed: true}]
+      sql: 'SELECT COUNT(*) FROM riders WHERE ?',
+      values: [{confirmed: 1}]
     }
 
     return this.getQuery(options);
@@ -61,7 +61,6 @@ class Db {
   getQuery(options) {
     return new Promise((resolve, reject) => {
       this.pool.query(options, (e, res, fields) => {
-        console.log({e, res})
         if (e) return reject(e);
 
         return resolve(res);
