@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS riders (
   telegram VARCHAR(255),
   tip INT DEFAULT 0,
   confirmed BOOLEAN DEFAULT FALSE,
+  tos_accepted BOOLEAN DEFAULT FALSE,
   checkout_id VARCHAR(255) DEFAULT NULL,
   transaction_id VARCHAR(255) DEFAULT NULL,
   show_twitter BOOLEAN DEFAULT TRUE,
