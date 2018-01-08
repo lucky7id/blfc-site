@@ -83,9 +83,8 @@ blfc.post('/riders', (req, res, next) => {
       
       return db.getConfirmedCount();
     })
-    .then(([count]) => {
-      console.log(count['COUNT(*)']);
-      if (parseInt(count['COUNT(*)'], 10) >= 1) throw new Error('bus-full');
+    .then(rows => {
+      if (!rows || rows.length >= 1) throw new Error('bus-full');
 
       return square.createCheckout(process.env.SQUARE_LOCATION_ID, createOrder(tipAmount, id, email));
     })
