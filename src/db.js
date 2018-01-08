@@ -43,6 +43,7 @@ class Db {
   getQuery(options) {
     return new Promise((resolve, reject) => {
       this.pool.query(options, (e, res, fields) => {
+        console.log({e, res})
         if (e) return reject(e);
 
         return resolve(e);

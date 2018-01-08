@@ -61,6 +61,7 @@ app.use(bodyParser.json());
 blfc.get('/riders', (req, res, next) => {
   db.getRiders()
     .then(riders => {
+      console.log(riders);
       res.send(riders);
     })
     .catch(next)
