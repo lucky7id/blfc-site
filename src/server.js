@@ -79,7 +79,7 @@ blfc.post('/riders', (req, res, next) => {
   if (email !== verify_email) return next('Provided emails do not match.');
   if (!birth_date) return next('Date of Birth is required.')
 
-  db.addRider({name, char_name, email, birth_date, twitter, telegram, tip})
+  db.addRider({id, name, char_name, email, birth_date, twitter, telegram, tip})
     .then(dbRes => {
       if (moment(birth_date).isAfter(minAge)) return res.send({status: 'not-21'});
       
