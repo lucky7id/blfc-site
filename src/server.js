@@ -20,10 +20,8 @@ const square = new SquareConnect.CheckoutApi();
 
 oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
 
-const errorHandler = (err, req, res, next) => {
-  console.error(err);
-  res.status(500).send({error: err.message || err});
-};
+app.use(morgan('dev'));
+app.use(bodyParser.json());
 
 const createOrder = (tip, id, email) => ({
   idempotency_key: id,
@@ -54,9 +52,6 @@ const createOrder = (tip, id, email) => ({
   }
 });
 
-app.use(morgan('dev'));
-app.use(bodyParser.json());
-
 blfc.get('/riders', (req, res, next) => {
   db.getRiders()
     .then(riders => {
@@ -75,11 +70,24 @@ blfc.post('/riders', (req, res, next) => {
   if (!char_name) return next('Character name is required. This will be used as your display name.');
   if (!email) return next('A valid email is required. Confirmation will be sent to this address.');
   if (email !== verify_email) return next('Provided emails do not match.');
-  if (!birth_date) return next('Date of Birth is required.')
+  if (!birth_date) return next('Date of Birth is required.');
+  
+  db.getByEmail({email})
+    .then(rider => {
+      if (rider && rider.length) throw new Error('email-found');
 
-  db.addRider({id, name, char_name, email, birth_date, twitter, telegram, tip})
+      return db.addRider({ id, name, char_name, email, birth_date, twitter, telegram, tip });
+    })
     .then(dbRes => {
-      if (moment(birth_date, 'MM-DD-YYYY').isAfter(minAge)) return res.send({status: 'not-21'});
+      if (moment(birth_date, 'MM-DD-YYYY').isAfter(minAge)) throw new Error('not-21');
+      
+      return db.getConfirmedCount();
+    })
+    .then(count => {
+      console.log(count);
+      console.dir(count);
+      
+      if (parseInt(count, 10) >= 1) throw new Error('bus-full');
 
       return square.createCheckout(process.env.SQUARE_LOCATION_ID, createOrder(tipAmount, id, email));
     })
@@ -105,6 +113,20 @@ blfc.get('/confirm', (req, res, next) => {
     })
     .catch(next);
 });
+
+const errorHandler = function errorHandler(err, req, res, next) {
+  console.error(err);
+
+  if (err.message === 'bus-full') {
+    return res.send({ status: 'bus-full' });
+  }
+
+  if (err.message === 'not-21') {
+    return res.send({ status: 'not-21' });
+  }
+
+  res.status(500).send({ error: err.message || err });
+};
 
 app.use('/blfc', blfc);
 app.use(errorHandler);

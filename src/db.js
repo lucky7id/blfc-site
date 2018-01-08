@@ -19,11 +19,31 @@ class Db {
     return this.getQuery(options);
   }
 
+  get
+
   addRider(rider) {
     const options = {
       sql: 'INSERT INTO riders SET ?',
       values: [rider]
     };
+
+    return this.getQuery(options);
+  }
+
+  getConfirmedCount() {
+    const options = {
+      sql: 'SELECT COUNT(*) WHERE ?',
+      values: [{confirmed: true}]
+    }
+
+    return this.getQuery(options);
+  }
+
+  getByEmail(email) {
+    const options = {
+      sql: 'SELECT * from riders WHERE ?',
+      values: [{email}]
+    }
 
     return this.getQuery(options);
   }
