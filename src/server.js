@@ -88,7 +88,7 @@ blfc.post('/riders', (req, res, next) => {
       if (!squareRes.checkout.id) return next('Could not get valid square id');
       
       db.updateUser({checkout_id: squareRes.checkout.id, tip: tipAmount}, {id})
-        .then(_ => res.redirect(`https://connect.squareup.com/v2/checkout?c=${squareRes.checkout.id}&l=${squareRes.checkout.order.location_id}`))
+        .then(() => res.redirect(squareRes.checkout.checkout_page_url))
         .catch(next);
     })
     .catch(next);
