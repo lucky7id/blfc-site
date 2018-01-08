@@ -84,11 +84,11 @@ blfc.post('/riders', (req, res, next) => {
       return square.createCheckout(process.env.SQUARE_LOCATION_ID, createOrder(tipAmount, id, email));
     })
     .then(squareRes => {
-      console.log(squareRes);
-      if (!squareRes.order.id) return next('Could not get valid square id');
+      console.log(squareRes.checkout, squareRes.checkout.order);
+      if (!squareRes.checkout.id) return next('Could not get valid square id');
       
-      db.updateUser({checkout_id: squareRes.order.id, tip: tipAmount}, {id})
-        .then(_ => res.redirect(`https://connect.squareup.com/v2/checkout?c=${squareRes.order.id}&l=${squareRes.order.location_id}`))
+      db.updateUser({checkout_id: squareRes.checkout.id, tip: tipAmount}, {id})
+        .then(_ => res.redirect(`https://connect.squareup.com/v2/checkout?c=${squareRes.checkout.id}&l=${squareRes.checkout.order.location_id}`))
         .catch(next);
     })
     .catch(next);
