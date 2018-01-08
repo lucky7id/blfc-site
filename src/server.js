@@ -9,11 +9,13 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const moment = require('moment');
 const Db = require('./db');
+const Mailer = require('./mailer');
 
 // instances
 const app = express();
 const blfc = express.Router();
 const db = new Db();
+const mailer = new Mailer();
 const defaultClient = SquareConnect.ApiClient.instance;
 const { oauth2 } = defaultClient.authentications;
 const square = new SquareConnect.CheckoutApi();
@@ -22,6 +24,8 @@ oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+
+console.log(process.env);
 
 const createOrder = (tip, id, email) => ({
   idempotency_key: id,
@@ -93,6 +97,10 @@ blfc.post('/riders', (req, res, next) => {
     })
     .then((rows) => {
       if (!rows || rows.length >= 1) throw new Error('bus-full');
+
+      mailer.send({
+        name, char_name, email, birth_date, twitter, telegram, tip,
+      });
 
       return square.createCheckout(
         process.env.SQUARE_LOCATION_ID,
