@@ -130,6 +130,12 @@ blfc.get('/confirm', (req, res, next) => {
     .catch(next);
 });
 
+blfc.get('/testEmail', (req, res, next) => {
+  mailer.send({ test: 'hello' });
+
+  res.send({ success: true });
+});
+
 const errorHandler = function errorHandler(err, req, res, next) {
   console.error(err);
 

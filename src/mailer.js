@@ -17,6 +17,10 @@ class Mailer {
       to: 'lucky7id+testblfc@gmail.com',
       subject: 'This is a test',
       text: Object.keys(vars).map(prop => `${prop}: ${vars[prop]}`).join('\n\n'),
+    }, (err, info) => {
+      if (err) console.error(err);
+
+      console.log('\n\n', 'mailer-info', info);
     });
   }
 }
