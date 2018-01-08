@@ -85,6 +85,7 @@ blfc.post('/riders', (req, res, next) => {
       return square.createCheckout(process.env.SQUARE_LOCATION_ID, createOrder(tipAmount, id, email));
     })
     .then(squareRes => {
+      console.log(squareRes);
       if (!squareRes.order.id) return next('Could not get valid square id');
       
       db.updateUser({checkout_id: squareRes.order.id, tip: tipAmount}, {id})

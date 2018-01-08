@@ -13,7 +13,7 @@ class Db {
 
   getRiders() {
     const options = {
-      sql: 'SELECT char_name, twitter, telegram, confirmed FROM riders GROUP BY confirmed'
+      sql: 'SELECT char_name, twitter, telegram, confirmed FROM riders ORDER BY confirmed'
     };
 
     return this.getQuery(options);
