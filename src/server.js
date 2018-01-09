@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const moment = require('moment');
 const Db = require('./db');
 const Mailer = require('./mailer');
+const cors = require('cors');
 
 // instances
 const app = express();
@@ -22,6 +23,7 @@ const square = new SquareConnect.CheckoutApi();
 
 oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
 
+app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
