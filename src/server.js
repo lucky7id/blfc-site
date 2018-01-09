@@ -84,6 +84,7 @@ blfc.post('/riders', (req, res, next) => {
 
   return db.getByEmail({ email })
     .then((rider) => {
+      console.log(rider[0], rider);
       if (rider && rider.length) throw new Error('email-found');
 
       return db.addRider({
@@ -98,18 +99,15 @@ blfc.post('/riders', (req, res, next) => {
     .then((rows) => {
       if (!rows || rows.length >= 1) throw new Error('bus-full');
 
-      mailer.send({
-        name, char_name, email, birth_date, twitter, telegram, tip,
-      });
-
       return square.createCheckout(
         process.env.SQUARE_LOCATION_ID,
         createOrder(tipAmount, id, email)
       );
     })
     .then((squareRes) => {
-      console.log(squareRes.checkout, squareRes.checkout.order);
       if (!squareRes.checkout.id) return next('Could not get valid square id');
+
+      mailer.sendWelcome(email, squareRes.checkout.checkout_page_url, name, id);
 
       return db.updateUser({ checkout_id: squareRes.checkout.id, tip: tipAmount }, { id })
         .then(() => res.redirect(squareRes.checkout.checkout_page_url))
@@ -123,17 +121,13 @@ blfc.get('/confirm', (req, res, next) => {
 
   if (true) return;
 
-  db.updateUser({ confirmed: true })
-    .then(() => {
+  db.updateUser({ confirmed: true }, { id: req.query.referenceId })
+    .then(() => db.getById(req.query.referenceId))
+    .then((user) => {
+      mailer.sendWelcome(user[0].email, req.query.referenceId);
       res.redirect(`http://yukine.me/blfc/?confirmed=true&cid=${req.query.referenceId}`);
     })
     .catch(next);
-});
-
-blfc.get('/testEmail', (req, res, next) => {
-  mailer.send({ test: 'hello' });
-
-  res.send({ success: true });
 });
 
 const errorHandler = function errorHandler(err, req, res, next) {
