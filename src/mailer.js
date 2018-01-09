@@ -1,6 +1,6 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer');
-const htmlToText = require('nodemailer-html-to-text').htmlToText;
+const { htmlToText } = require('nodemailer-html-to-text');
 
 const welcomeBody = (checkoutUrl, id) => (`
 We've got your info, and have added you to the pre-confirmed list. You should have been redirected to Square's site for payment.
@@ -199,7 +199,7 @@ class Mailer {
         user: process.env.MAIL_USER,
         clientId: process.env.MAIL_CLIENT,
         clientSecret: process.env.MAIL_SECRET,
-        refreshToken: process.env.MAIL_REFRESH
+        refreshToken: process.env.MAIL_REFRESH,
       },
     });
 
@@ -211,9 +211,9 @@ class Mailer {
       to,
       from: 'blfcbaybus@gmail.com',
       subject: 'Welcome to the biggest little furry coach',
-      html: template('Thanks for signing up!', welcomeBody(checkoutUrl), name),
-    }, (err, info) => {
-      if (err) console.error(err);
+      html: template('Thanks for signing up!', welcomeBody(checkoutUrl, id), name),
+    }, (err) => {
+      if (err) console.error(err); //eslint-disable-line
     });
   }
 
@@ -223,8 +223,8 @@ class Mailer {
       from: 'blfcbaybus@gmail.com',
       subject: 'You are all set for the biggest little furry coach',
       html: template('You are confirmed!', confirmedBody(), name),
-    }, (err, info) => {
-      if (err) console.error(err);
+    }, (err) => {
+      if (err) console.error(err); //eslint-disable-line
     });
   }
 }
