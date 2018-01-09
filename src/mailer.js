@@ -8,8 +8,9 @@ class Mailer {
       auth: {
         type: 'OAuth2',
         user: process.env.MAIL_USER,
-        serviceClient: process.env.MAIL_CLIENT,
-        privateKey: process.env.MAIL_KEY,
+        clientId: process.env.MAIL_CLIENT,
+        clientSecret: process.env.MAIL_SECRET,
+        refreshToken: process.env.MAIL_REFRESH
       },
     });
   }
