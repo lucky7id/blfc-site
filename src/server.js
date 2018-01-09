@@ -25,8 +25,6 @@ oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
-console.log(process.env);
-
 const createOrder = (tip, id, email) => ({
   idempotency_key: id,
   ask_for_shipping_address: false,
@@ -82,9 +80,8 @@ blfc.post('/riders', (req, res, next) => {
   if (email !== verify_email) return next('Provided emails do not match.');
   if (!birth_date) return next('Date of Birth is required.');
 
-  return db.getByEmail({ email })
+  return db.getByEmail(email)
     .then((rider) => {
-      console.log(rider[0], rider);
       if (rider && rider.length) throw new Error('email-found');
 
       return db.addRider({
