@@ -1,3 +1,4 @@
+import 'material-design-icons/iconfont/material-icons.css';
 import $ from 'jquery';
 import './styles/style.sass';
 
@@ -15,31 +16,38 @@ const handleSubmit = () => {
 };
 
 const getRow = rider => `
-<tr>
-  <td>
-    <div class="avatar-container">
-      <img src="https://avatars.io/twitter/${rider.twitter} />
-    </div>
-  </td>
-  <td>${rider.char_name}</td>
-  <td>${rider.twitter}</td>
-  <td>${rider.telegram}</td>
-  <td>${rider.confirmed}</td>
-</tr>
+<td>${rider.char_name}</td>
+<td>${rider.twitter}</td>
+<td>${rider.telegram}</td>
 `;
+
+const getAvatar = rider => `<td><div class="twitter-avatar-container"><img class="img-fluid" src="https://avatars.io/twitter/${rider.twitter}" /></div></td>`;
 
 const renderTable = (data) => {
   const $results = $('#riders-body');
-  const rows = data.map(getRow).join('');
+  console.log(data); //eslint-disable-line
 
-  $results.append(rows);
+  data.forEach((rider) => {
+    const $row = $('<tr></tr>');
+
+    $row.append(getAvatar(rider));
+    $row.append(getRow(rider));
+
+    if (rider.confirmed) {
+      $row.append(`<td>${rider.confirmed}</td>`);
+    } else {
+      $row.append('<td>&nbsp;</td>');
+    }
+
+    $results.append($row);
+  });
 };
 
 const init = () => {
   const $submit = $('#reserve-submit');
 
   $submit.on('click', handleSubmit);
-  $.get('http://api.yukine.me/blfc/riders')
+  $.getJSON('http://api.yukine.me/blfc/riders')
     .done(renderTable)
     .fail(console.error); //eslint-disable-line
 };
