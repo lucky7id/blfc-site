@@ -1,5 +1,11 @@
-$font-family-sans-serif:      "Operator",  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
-
+$font-family-sans-serif:      "Operator",  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$input-box-shadow: none;
+$input-bg: transparent;
+$input-color: white;
+$input-placeholder-color: rgba(255, 255, 255, .6);
+$input-border-width: 2px;
+$input-border-radius: 0;
+$input-focus-border-color: none;
 
 @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/functions";

@@ -1,5 +1,7 @@
 @import ./bootstrap
 
+$purple: #7e599d
+
 @font-face
   font-family: 'Chewy'
   font-style: normal
@@ -14,7 +16,7 @@
 
 h1,h2,h3,h4,h5,h5,h6
   font-family: 'Chewy'
-  color: #7e599d
+  color: $purple
 
 h1
   font-size: 4.5rem
@@ -47,15 +49,18 @@ section
 
   &#hero
     background: linear-gradient(#bbedfe, #fcfbdb)
+    min-height: unset
 
   &#info
     background-color: #fcfbdb
+    padding-top: 50px
 
     .bg
       background-image: url('../img/info-bg-1.png')
 
   &#reserve
-    background-color: #7e599d
+    background-color: $purple
+    color: white
 
     h1, h2, h3, h4, h5, h6
       color: white
@@ -71,3 +76,29 @@ section
 
   img
     max-width: 50%
+
+.twitter-avatar-container
+  height: 50px
+  width: 50px
+
+.form-control
+  border-top: none
+  border-left: none
+  border-right: none
+
+.info-item
+  i
+    color: $purple
+    font-size: 36px
+    margin-right: 8px
+
+#reserve-submit
+  background: none
+  color: white
+  transition: all .3s ease
+  border-color: white
+
+  &:hover
+    border-color: white
+    background-color: white
+    color: $purple
