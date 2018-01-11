@@ -15,7 +15,7 @@
 
   <body>
     <section id="hero">
-      <div class="container-fluid pt-5">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-2 d-none d-lg-block">
             <div class="avatar-container">
@@ -36,7 +36,7 @@
       <img src="/blfc/img/splash.png" class="img-fluid hero-splash" />
     </section>
     <section id="info">
-      <div class="container-fluid pt-5">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-2 bg bg-1 d-none d-lg-block"></div>
           <div class="col">
@@ -116,7 +116,7 @@
         </div>
     </section>
     <section id="reserve">
-      <div class="container-fluid pt-5">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-2 bg bg-1 d-none d-lg-block"></div>
           <div class="col">
@@ -128,16 +128,17 @@
               be reserved! If you have to change your plans, you will have until April 15 2018 to request a refund.
               By submitting, you agree to all the following rules and conditions.
             </p>
-
+            <div class="alert alert-danger" id="form-errors"></div>
+            <div class="alert alert-primary" id="form-feedback"></div>
             <form id="reserve-form">
               <div class="row">
-                <div class="col">
+                <div class="col-12 col-md">
                   <div class="form-group">
                     <label for="name">Name (must match ID)</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="John Smith" />
                   </div>
                 </div>
-                <div class="col offset-1">
+                <div class="col offset-md-1">
                   <div class="form-group">
                     <label for="char_name">Character/Display Name</label>
                     <input type="text" class="form-control" name="char_name" id="char_name" placeholder="Yukine" />
@@ -145,14 +146,14 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col">
+                <div class="col-12 col-md">
                   <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="fuzzbutt@furry.yiff" />
                     <small id="emailHelp" class="form-text text-muted">Used to validate, and send confirmation emails</small>
                   </div>
                 </div>
-                <div class="col offset-1">
+                <div class="col offset-md-1">
                   <div class="form-group">
                     <label for="verify_email">Confirm Email</label>
                     <input type="email" class="form-control" name="verify_email" id="verify_email" placeholder="fuzzbutt@furry.yiff" />
@@ -160,14 +161,14 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col">
+                <div class="col-12 col-md">
                   <div class="form-group">
                     <label for="birth_date">Date of Birth</label>
                     <input type="text" class="form-control" name="birth_date" id="birth_date" placeholder="04/20/1969" />
                     <small id="dateHelp" class="form-text text-muted">Format MM-DD-YYYY</small>
                   </div>
                 </div>
-                <div class="col offset-1">
+                <div class="col offset-md-1">
                   <div class="form-group">
                     <label for="twitter">Twitter Name</label>
                     <input type="text" class="form-control" name="twitter" id="twitter" placeholder="@yuki_husker" />
@@ -176,14 +177,14 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col">
+                <div class="col-12 col-md">
                   <div class="form-group">
                     <label for="telegram">Telegram Name</label>
                     <input type="text" class="form-control" name="telegram" id="telegram" placeholder="@Uchimaki" />
                     <small id="telegramHelp" class="form-text text-muted">Your @telegram name, optional</small>
                   </div>
                 </div>
-                <div class="col offset-1">
+                <div class="col offset-md-1">
                   <div class="form-group">
                     <label for="twitter">Tip</label>
                     <input type="number" class="form-control" name="twitter" id="twitter" placeholder="5.00" />
@@ -204,12 +205,15 @@
         </div>
     </section>
     <section id="social">
-      <div class="container-fluid pt-5">
+      <div class="d-flex justify-content-center">
+        <img class="d-none d-lg-block img-fluid" src="/blfc/img/paw-tail-topper.png" />
+      </div>
+      <div class="container-fluid">
         <div class="row">
           <div class="col-2 bg bg-1 d-none d-lg-block"></div>
           <div class="col">
             <h2 class="mb-5">See Who's Comin'</h2>
-            <table class="table">
+            <table class="table table-responsive-md">
               <thead>
                 <tr>
                   <th>&nbsp;</th>

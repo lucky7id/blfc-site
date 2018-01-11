@@ -42,3 +42,27 @@ $input-focus-border-color: none;
 @import "~bootstrap/scss/carousel";
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/print";
+
+
+.table {
+  thead {
+    th {
+      border-top: none;
+      border-color: #7e599d;
+      text-align: center;
+    }
+  }
+
+  td {
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+.form-group {
+  margin-bottom: 2rem;
+
+  .text-muted {
+    color: rgba(255, 255, 255, .6) !important;
+  }
+}

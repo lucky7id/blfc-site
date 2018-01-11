@@ -1,16 +1,76 @@
 import 'material-design-icons/iconfont/material-icons.css';
 import $ from 'jquery';
+import moment from 'moment';
 import './styles/style.sass';
+import confirmed from './img/confirmed.png';
 
-const handleSubmit = () => {
+const handleSubmit = (e) => {
   const $form = $('#reserve-form');
-  const data = $form.serialize();
+  const $errors = $('#form-errors');
+  const $feedback = $('#form-feedback');
+  const data = {};
+
+  e.preventDefault();
+  $errors.hide();
+  $feedback.hide();
+
+  $form.serializeArray().forEach((elm) => { data[elm.name] = elm.value; });
 
   console.log(data); //eslint-disable-line
 
-  $.post('http://api.yukine.me/blfc/riders', data)
+  if (!data.name) {
+    $errors.text('Missing "Name" - must match name on ID');
+    $errors.show();
+
+    return;
+  }
+
+  if (!data.char_name) {
+    $errors.text('Missing "Display/Character Name"');
+    $errors.show();
+
+    return;
+  }
+
+  if (!data.email) {
+    $errors.text('Missing "Email" - this is where we will send confirmation!');
+    $errors.show();
+
+    return;
+  }
+
+  if (data.email !== data.verify_email) {
+    $errors.text('Emails do not match');
+    $errors.show();
+
+    return;
+  }
+
+  if (!data.birth_date) {
+    $errors.text('Missing "Date of Birth" - this is where we will send confirmation!');
+    $errors.show();
+
+    return;
+  }
+
+  if (!moment(data.birth_date, 'MM/DD/YYYY').isValid()) {
+    $errors.text('"Date of Birth must be in the format of MM/DD/YYYY or MM-DD-YYYY');
+    $errors.show();
+
+    return;
+  }
+
+  $.postJSON('http://api.yukine.me/blfc/riders', data)
     .then((res) => {
-      console.log(res); //eslint-disable-line
+      if (res.status === 'bus-full') {
+        $feedback.text('Looks like the bus is full, but we have saved your info and will reach out should more spots open up');
+        $feedback.show();
+      }
+
+      if (res.status === 'not-21') {
+        $feedback.text('Looks like you will not be 21 in time for this bus. We have saved your info and will reach out should a second all ages bus open');
+        $feedback.show();
+      }
     })
     .catch(console.error); //eslint-disable-line
 };
@@ -34,7 +94,7 @@ const renderTable = (data) => {
     $row.append(getRow(rider));
 
     if (rider.confirmed) {
-      $row.append(`<td>${rider.confirmed}</td>`);
+      $row.append(`<td><img src=${confirmed} class="img-fluid" /></td>`);
     } else {
       $row.append('<td>&nbsp;</td>');
     }
@@ -45,6 +105,9 @@ const renderTable = (data) => {
 
 const init = () => {
   const $submit = $('#reserve-submit');
+
+  $('#form-errors').hide();
+  $('#form-feedback').hide();
 
   $submit.on('click', handleSubmit);
   $.getJSON('http://api.yukine.me/blfc/riders')

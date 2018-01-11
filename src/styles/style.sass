@@ -40,12 +40,16 @@ h6
   h1
     font-size: 2.5rem
 
-  h2
-    font-size: 1.0rem
+  h2, h3
+    font-size: 1.5rem
 
 
 section
   min-height: 100vh
+
+  .container-fluid
+    padding-top: 1.5rem
+    padding-bottom: 1.5rem
 
   &#hero
     background: linear-gradient(#bbedfe, #fcfbdb)
@@ -64,11 +68,21 @@ section
 
     h1, h2, h3, h4, h5, h6
       color: white
+    
+    .bg-1
+      background-image: url('../img/paw-left-bg.png')
+
+    .bg-2
+      background-image: url('../img/paw-right-bg.png')
+  
+  &#social
+    background-color: white
+    color: $purple
 
   .bg
     background-repeat: repeat-y
     background-origin: content-box
-    background-position: center
+    background-position: center 0
     min-height: 100vh
 
 .avatar-container
@@ -78,8 +92,15 @@ section
     max-width: 50%
 
 .twitter-avatar-container
-  height: 50px
-  width: 50px
+  padding: 10px
+  height: 70px
+  width: 70px
+  background-image: url('../img/profile-bg.png')
+  background-size: cover
+
+  img
+    border: 2px solid $purple
+    border-radius: .25rem
 
 .form-control
   border-top: none
