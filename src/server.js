@@ -70,7 +70,7 @@ blfc.post('/riders', (req, res, next) => {
   const {
     name, char_name, email, verify_email, birth_date, twitter, telegram, tip,
   } = req.body;
-  const tipAmount = tip ? 0 : parseInt(tip, 10);
+  const tipAmount = tip ? parseInt(tip, 10) : 0;
   const minAge = moment()
     .set('y', 2018)
     .set('M', 5)
@@ -99,7 +99,7 @@ blfc.post('/riders', (req, res, next) => {
       return db.getConfirmedCount();
     })
     .then((rows) => {
-      if (!rows || rows.length >= 1) throw new Error('bus-full');
+      if (!rows || rows.length >= 61) throw new Error('bus-full');
 
       return square.createCheckout(
         process.env.SQUARE_LOCATION_ID,
