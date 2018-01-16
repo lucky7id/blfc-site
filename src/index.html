@@ -32,6 +32,21 @@
             </div>
           </div>
         </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-3 col-8">
+            <div class="social-link-container d-flex justify-content-between">
+              <a class="social-link" href="https://t.me/joinchat/Dpr3yk0okkj9vPAwXH8A8A" target="_blank">
+                <i class="socicon-telegram"></i>
+              </a>
+              <a class="social-link" href="https://twitter.com/yuki_husker" target="_blank">
+                <i class="socicon-twitter"></i>
+              </a>
+              <a class="social-link" href="mailto:blfcbaybus@gmail.com" target="_blank">
+                <i class="material-icons">gmail</i>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
       <img src="/blfc/img/splash.png" class="img-fluid hero-splash" />
     </section>
@@ -56,7 +71,7 @@
             <div class="row mt-5">
               <div class="col-md-5">
                 <h3>Departure</h3>
-                <div class="d-flex mb-3 info-item">
+                <div class="d-flex mb-3 mt-4 info-item">
                   <i class="material-icons align-self-center">explore</i>
                   <div>
                     San Jose Diridon Caltrain Station<br />
@@ -84,7 +99,7 @@
               </div>
               <div class="col-md-5 offset-md-1 col-sm-12">
                 <h3>Return</h3>
-                <div class="d-flex mb-3 info-item">
+                <div class="d-flex mb-3 mt-4 info-item">
                   <i class="material-icons align-self-center">explore</i>
                   <div>
                     Grand Sierra Resort<br />
@@ -109,6 +124,34 @@
                     We will meet in the parking lot, pack our stuff, refill our drinks, and head home!
                   </div>
                 </div>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col">
+                <h2>General Info</h2>
+                <div class="d-flex rule">
+                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+                  <div class="align-self-center">21+ Must bring valid ID that matches name on reservation</div>
+                </div>
+                <div class="d-flex rule">
+                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+                  <div class="align-self-center">No glass containers on the bus</div>
+                </div>
+                <div class="d-flex rule">
+                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+                  <div class="align-self-center">Suits are okay and encouraged!</div>
+                </div>
+                <div class="d-flex rule">
+                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+                  <div class="align-self-center">There will be entertainment provided during the drive</div>
+                </div>
+                <div class="d-flex rule">
+                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+                  <div class="align-self-center">Tips will go towards providing water and snacks on the bus</div>
+                </div>
+                <p>
+
+                </p>
               </div>
             </div>
           </div>
@@ -186,8 +229,8 @@
                 </div>
                 <div class="col offset-md-1">
                   <div class="form-group">
-                    <label for="twitter">Tip</label>
-                    <input type="number" class="form-control" name="twitter" id="twitter" placeholder="5.00" />
+                    <label for="tip">Tip</label>
+                    <input type="number" class="form-control" name="tip" id="tip" placeholder="5.00" />
                     <small id="tipHelp" class="form-text text-muted">
                       tips are greatly appreciated, and go towards art costs, site costs, and provided snacks/drinks
                     </small>
@@ -213,21 +256,59 @@
           <div class="col-2 bg bg-1 d-none d-lg-block"></div>
           <div class="col">
             <h2 class="mb-5">See Who's Comin'</h2>
-            <table class="table table-responsive-md">
-              <thead>
-                <tr>
-                  <th>&nbsp;</th>
-                  <th>Display Name</th>
-                  <th>Twitter</th>
-                  <th>Telegram</th>
-                  <th>Confirmed</th>
-                </tr>
-              </thead>
-              <tbody id="riders-body"></tbody>
-            </table>
+            <div class="row">
+              <div class="col rider-anchor">
+                
+              </div>
+            </div>
           </div>
           <div class="col-2 bg bg-2 d-none d-lg-block"></div>
         </div>
+        <div class="row justify-content-center footer">
+          <div class="col-8">
+            <div class="text-center">Thanks!</div>
+            <hr class="footer-bar"/>
+            <img src="/blfc/img/confirmed.png" class="footer-l"/>
+            <img src="/blfc/img/confirmed.png" class="footer-r"/>
+            <p class="text-center">Site Design & Construction by 
+              <a class="mention" href="https://twitter.com/yuki_husker" target="_blank">@yuki_husker</a>
+            </p>
+            <p class="text-center">Main Banner Art by
+              <a class="mention" href="https://twitter.com/faunbutt" target="_blank">@faunbutt</a>
+            </p>
+            <p class="text-center">Yukine Chibi by
+              <a class="mention" href="https://twitter.com/Tohrufusky" target="_blank">@Tohrufusky</a>
+            </p>
+            <p class="text-center">Security Testing by
+              <a class="mention" href="https://twitter.com/Tohrufusky" target="_blank">@niteskunk</a>
+            </p>
+          </div>
+        </div>
     </section>
+    <div class="modal fade show" id="terms-modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Covering Our Fuzz</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Making this a memorable experience is our number 1 goal and we need your help to do it.
+            By accepting the terms listed below, you (the rider) agree to the following:
+            <ul>
+              <li>You are responsible for any and all actions that occur as a result of your actions on the bus</li>
+              <li>You are responsible for keeping track of your personal items, any lost or stolen items will be resolved directly with the the chater company</li>
+              <li>You are of lawful drinking age in the state of California and Nevada</li>
+              <li>You will do your best to make this a fun, and safe experience for everyone</li>
+            </ul>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-block btn-primary">I agree</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

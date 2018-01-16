@@ -42,6 +42,23 @@ h6
 
   h2, h3
     font-size: 1.5rem
+  
+  .rule
+    font-size: 1rem
+
+.rule
+  font-size: 1.25rem
+  padding: 1rem 0
+
+.social-link, a
+  color: $purple
+
+  &:hover
+    text-decoration: none
+    color: darken($purple, 10%)
+
+  i
+    font-size: 1.5rem
 
 
 section
@@ -79,6 +96,9 @@ section
     background-color: white
     color: $purple
 
+    .footer
+      color: $purple
+
   .bg
     background-repeat: repeat-y
     background-origin: content-box
@@ -90,17 +110,6 @@ section
 
   img
     max-width: 50%
-
-.twitter-avatar-container
-  padding: 10px
-  height: 70px
-  width: 70px
-  background-image: url('../img/profile-bg.png')
-  background-size: cover
-
-  img
-    border: 2px solid $purple
-    border-radius: .25rem
 
 .form-control
   border-top: none
@@ -123,3 +132,63 @@ section
     border-color: white
     background-color: white
     color: $purple
+
+.footer-bar
+  background-color: $purple
+  height: 8px
+  border-radius: 10rem
+
+.footer-l
+  position: absolute
+  top: 20px
+  left: -50px
+
+.footer-r
+  position: absolute
+  top: 20px
+  right: -50px
+
+.twitter-avatar-container
+  padding: 12px
+  background-image: url('../img/profile-bg.png')
+  background-size: contain
+  background-position: 0 0
+  background-repeat: no-repeat
+
+  img
+    border: 2px solid white
+    border-radius: .25rem
+
+.social-container
+  border: 2px solid $purple
+  background-color: white
+  border-radius: .25rem
+  padding: 0 1.5rem
+
+  .vis-0
+    visibility: hidden
+    opacity: 0
+
+  .text-content
+    min-width: 75%
+    margin: 0 auto
+    text-align: center
+    align-self: center
+
+    .social-item
+      padding: 0 1rem
+
+    .social-title
+      font-weight: 600
+      font-size: .8rem
+      line-height: 2.5
+
+      &.confirmed
+        font-size: 1.5rem
+        line-height: 1.5
+        padding-left: 1rem
+        margin-top: 1rem
+
+    .social-value.confirmed
+      padding-top: .8rem
+    

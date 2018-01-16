@@ -26,6 +26,7 @@ oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
 app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 const createOrder = (tip, id, email) => ({
   idempotency_key: id,
@@ -75,6 +76,8 @@ blfc.post('/riders', (req, res, next) => {
     .set('M', 5)
     .set('d', 8)
     .subtract(21, 'y');
+
+  console.log('\n[Rider Add]', req.body, '\n');
 
   if (!name) return next('Name is required.');
   if (!char_name) return next('Character name is required. This will be used as your display name.');
