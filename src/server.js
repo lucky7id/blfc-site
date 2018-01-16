@@ -124,7 +124,7 @@ blfc.get('/confirm', (req, res, next) => {
   db.updateUser({ confirmed: true }, { id: req.query.referenceId })
     .then(() => db.getById(req.query.referenceId))
     .then((user) => {
-      mailer.sendConfirm(user[0].email, req.query.referenceId);
+      mailer.sendConfirm(user[0].email, user[0].name, req.query.referenceId);
       res.redirect(`http://yukine.me/blfc/?confirmed=true&cid=${req.query.referenceId}`);
     })
     .catch(next);
