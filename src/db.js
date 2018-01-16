@@ -46,7 +46,7 @@ class Db {
     return this.getQuery(options);
   }
 
-  getByEmail(id) {
+  getById(id) {
     const options = {
       sql: 'SELECT * from riders WHERE ?',
       values: [{ id }]
