@@ -46,6 +46,15 @@ class Db {
     return this.getQuery(options);
   }
 
+  getByEmail(id) {
+    const options = {
+      sql: 'SELECT * from riders WHERE ?',
+      values: [{ id }]
+    }
+
+    return this.getQuery(options);
+  }
+
   updateUser(set, wheres) {
     const options = {
       sql: 'UPDATE riders SET ? WHERE ?',
