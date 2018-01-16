@@ -119,9 +119,7 @@ blfc.post('/riders', (req, res, next) => {
 });
 
 blfc.get('/confirm', (req, res, next) => {
-  console.log(req.query);
-
-  if (true) return;
+  if (!req.query.referenceId) return;
 
   db.updateUser({ confirmed: true }, { id: req.query.referenceId })
     .then(() => db.getById(req.query.referenceId))
