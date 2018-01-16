@@ -76,6 +76,12 @@ const handleSubmit = (e) => {
           $feedback.text('Looks like you will not be 21 in time for this bus. We have saved your info and will reach out should a second all ages bus open');
           $feedback.show();
         }
+
+        if (res.data.url) {
+          window.location = res.data.url;
+        }
+
+        console.log(res);
       })
       .catch(console.error) //eslint-disable-line
       .always(() => {

@@ -112,7 +112,7 @@ blfc.post('/riders', (req, res, next) => {
       mailer.sendWelcome(email, squareRes.checkout.checkout_page_url, name, id);
 
       return db.updateUser({ checkout_id: squareRes.checkout.id, tip: tipAmount }, { id })
-        .then(() => res.redirect(squareRes.checkout.checkout_page_url))
+        .then(() => res.send({url: squareRes.checkout.checkout_page_url}))
         .catch(next);
     })
     .catch(next);
