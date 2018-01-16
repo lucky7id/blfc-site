@@ -77,8 +77,8 @@ const handleSubmit = (e) => {
           $feedback.show();
         }
 
-        if (res.responseJSON.url) {
-          window.location = res.responseJSON.url;
+        if (res.url) {
+          window.location = res.url;
         }
 
         console.log(res);
