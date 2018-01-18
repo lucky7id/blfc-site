@@ -98,7 +98,7 @@ const handleSubmit = (e) => {
         }
 
         if (res.error) {
-          $errors.text(res.error);
+          $errors.text(res.errorText || res.error.message || res.error.error || res.error);
           $errors.show();
         }
 
