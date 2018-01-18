@@ -13,6 +13,7 @@ const Mailer = require('./mailer');
 const cors = require('cors');
 const isemail = require('isemail');
 const xss = require('xss');
+const { sanitizeBody, sanitizeQuery } = require('express-validator/filter');
 
 // instances
 const app = express();
@@ -77,7 +78,9 @@ blfc.get('/riders', (req, res, next) => {
     .catch(next);
 });
 
-blfc.post('/riders', (req, res, next) => {
+blfc.post('/riders', sanitizeBody([
+  'name', 'char_name', 'email', 'verify_email', 'birth_date', 'twitter', 'telegram', 'tip'
+]), (req, res, next) => {
   const id = uuid();
   const {
     name, char_name, email, verify_email, birth_date, twitter, telegram, tip,
@@ -131,7 +134,7 @@ blfc.post('/riders', (req, res, next) => {
     .catch(next);
 });
 
-blfc.get('/confirm', (req, res, next) => {
+blfc.get('/confirm', sanitizeQuery(['referenceId']), (req, res, next) => {
   if (!req.query.referenceId) return;
   
   //@todo verify id from square
