@@ -8,10 +8,13 @@ import './styles/style.sass';
 import confirmed from './img/confirmed.png';
 
 const handleSubmit = (e) => {
+  let fetching = false;
   const $form = $('#reserve-form');
   const $errors = $('#form-errors');
   const $feedback = $('#form-feedback');
   const data = {};
+
+  if (fetching) return;
 
   e.preventDefault();
   $errors.hide();
@@ -65,6 +68,9 @@ const handleSubmit = (e) => {
 
   $('#terms-modal').modal('show');
   $('#terms-modal button').on('click', () => {
+    $('#terms-modal button').off('click');
+    fetching = true;
+
     $.post('http://api.yukine.me/blfc/riders', Object.assign({}, data, { tos_accept: true }), 'json')
       .then((res) => {
         if (res.status === 'bus-full') {
@@ -78,12 +84,27 @@ const handleSubmit = (e) => {
         }
 
         if (res.url) {
-          window.location = res.url;
+          $feedback.text('Awesome! Your info submitted successfully, in 3 seconds you will be redirected to square');
+          $feedback.show();
+
+          setTimeout(() => {
+            window.location = res.url;
+          }, 3000);
+        }
+
+        if (res.error) {
+          $errors.text(res.error);
+          $errors.show();
         }
 
         console.log(res);
       })
-      .catch(console.error) //eslint-disable-line
+      .catch((err) => {
+        console.error(err);
+
+        $errors.text(err.message || err.error || err);
+        $errors.show();
+      }) //eslint-disable-line
       .always(() => {
         $('#terms-modal').modal('hide');
       });
