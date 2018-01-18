@@ -164,7 +164,7 @@ const init = () => {
     $('#form-errors').hide();
     $('#form-feedback').hide();
 
-    if (window.location.search.indexOf('confirmed=true&cid=')) {
+    if (window.location.search.includes('confirmed=true&cid=')) {
       $('#reserve-form').hide();
       $('#form-feedback').text('You are all set! Thanks for riding with us!').show();
       window.location.href = '#';
