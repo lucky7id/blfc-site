@@ -79,10 +79,12 @@ blfc.get('/riders', (req, res, next) => {
 
 blfc.post('/riders', (req, res, next) => {
   const id = uuid();
+  const atName = /^@/;
+  const badChars = /[^\w@\s\+\.\?\\\-\(\)\!]/g;
   const {
     name, char_name, email, verify_email, birth_date, twitter, telegram, tip,
   } = sanitize(req.body);
-  
+
   const tipAmount = tip ? parseInt(tip, 10) : 0;
   const minAge = moment()
     .set('y', 2018)
@@ -97,6 +99,8 @@ blfc.post('/riders', (req, res, next) => {
   if (!email || !isemail.validate(email)) return next('A valid email is required. Confirmation will be sent to this address.');
   if (email !== verify_email) return next('Provided emails do not match.');
   if (!birth_date) return next('Date of Birth is required.');
+  if (!atName.test(twitter) || !atName.test(telegram)) return next('Twitter and Telegram names must start with an @');
+  if (badChars.test(name) || badChars.test(char_name)) return next('Trying to be a sneaky skunk? Names are only allowed to use alphanumeric values and characters "+-!?.\\()"');
 
   return db.getByEmail(email)
     .then((rider) => {
@@ -133,7 +137,7 @@ blfc.post('/riders', (req, res, next) => {
 
 blfc.get('/confirm', (req, res, next) => {
   if (!req.query.referenceId) return;
-  
+
   //@todo verify id from square
   db.updateUser({ confirmed: true }, { id: req.query.referenceId })
     .then(() => db.getById(req.query.referenceId))

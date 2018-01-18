@@ -83,6 +83,11 @@ const handleSubmit = (e) => {
           $feedback.show();
         }
 
+        if (res.status === 'email-found') {
+          $feedback.text('Looks like someone already signed up with that email');
+          $feedback.show();
+        }
+
         if (res.url) {
           $feedback.text('Awesome! Your info submitted successfully, in 3 seconds you will be redirected to square');
           $feedback.show();
@@ -158,6 +163,13 @@ const init = () => {
   setTimeout(() => {
     $('#form-errors').hide();
     $('#form-feedback').hide();
+
+    if (window.location.search.indexOf('confirmed=true&cid=')) {
+      $('#reserve-form').hide();
+      $('#form-feedback').text('You are all set! Thanks for riding with us!').show();
+      window.location.href = '#';
+      window.location.href = '#reserve';
+    }
   });
 
   $submit.on('click', handleSubmit);
