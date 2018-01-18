@@ -34,6 +34,7 @@
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
+    "isemail": "^3.0.0",
     "jquery": "^3.2.1",
     "material-design-icons": "^3.0.1",
     "moment": "^2.20.1",
@@ -43,7 +44,8 @@
     "nodemailer-html-to-text": "^2.1.0",
     "popper.js": "^1.12.9",
     "square-connect": "^2.5.3",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "xss": "^0.3.7"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

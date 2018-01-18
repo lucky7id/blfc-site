@@ -11,6 +11,8 @@ const moment = require('moment');
 const Db = require('./db');
 const Mailer = require('./mailer');
 const cors = require('cors');
+const isemail = require('isemail');
+const xss = require('xss');
 
 // instances
 const app = express();
@@ -27,6 +29,16 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+
+const sanitize = (obj) => {
+  const result = {};
+
+  Object.keys(obj).forEach(key => {
+    result[key] = xss(obj[key]);
+  });
+
+  return result;
+}
 
 const createOrder = (tip, id, email) => ({
   idempotency_key: id,
@@ -69,7 +81,8 @@ blfc.post('/riders', (req, res, next) => {
   const id = uuid();
   const {
     name, char_name, email, verify_email, birth_date, twitter, telegram, tip,
-  } = req.body;
+  } = sanitize(req.body);
+  
   const tipAmount = tip ? parseInt(tip, 10) : 0;
   const minAge = moment()
     .set('y', 2018)
@@ -81,7 +94,7 @@ blfc.post('/riders', (req, res, next) => {
 
   if (!name) return next('Name is required.');
   if (!char_name) return next('Character name is required. This will be used as your display name.');
-  if (!email) return next('A valid email is required. Confirmation will be sent to this address.');
+  if (!email || !isemail.validate(email)) return next('A valid email is required. Confirmation will be sent to this address.');
   if (email !== verify_email) return next('Provided emails do not match.');
   if (!birth_date) return next('Date of Birth is required.');
 
