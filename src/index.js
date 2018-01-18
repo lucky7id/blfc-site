@@ -97,8 +97,8 @@ const handleSubmit = (e) => {
           }, 3000);
         }
 
-        if (res.error) {
-          $errors.text(res.errorText || res.error.message || res.error.error || res.error);
+        if (res.status !== 200) {
+          $errors.text((res.responseJSON && res.responseJSON.error) || res.responseText);
           $errors.show();
         }
 
@@ -107,7 +107,7 @@ const handleSubmit = (e) => {
       .catch((err) => {
         console.error(err);
 
-        $errors.text(err.message || err.error || err);
+        $errors.text((err.responseJSON && err.responseJSON.error) || err.responseText || err.error || err);
         $errors.show();
       }) //eslint-disable-line
       .always(() => {
