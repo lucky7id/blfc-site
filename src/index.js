@@ -101,13 +101,11 @@ const handleSubmit = (e) => {
           $errors.text((res.responseJSON && res.responseJSON.error) || res.responseText);
           $errors.show();
         }
-
-        console.log(res);
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err); //eslint-disable-line
 
-        $errors.text((err.responseJSON && err.responseJSON.error) || err.responseText || err.error || err);
+        $errors.text((err.responseJSON && err.responseJSON.error) || err.responseText);
         $errors.show();
       }) //eslint-disable-line
       .always(() => {
