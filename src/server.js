@@ -99,7 +99,8 @@ blfc.post('/riders', (req, res, next) => {
   if (!email || !isemail.validate(email)) return next('A valid email is required. Confirmation will be sent to this address.');
   if (email !== verify_email) return next('Provided emails do not match.');
   if (!birth_date) return next('Date of Birth is required.');
-  if (!atName.test(twitter) || !atName.test(telegram)) return next('Twitter and Telegram names must start with an @');
+  if (twitter && !atName.test(twitter)) return next('Twitter and Telegram names must start with an @');
+  if (telegram && !atName.test(telegram)) return next('Twitter and Telegram names must start with an @');
   if (badChars.test(name) || badChars.test(char_name)) return next('Trying to be a sneaky skunk? Names are only allowed to use alphanumeric values and characters "+-!?.\\()"');
 
   return db.getByEmail(email)
