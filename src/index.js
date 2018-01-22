@@ -127,7 +127,7 @@ const handleInfoSubmit = () => {
   }
   fetching = true;
 
-  $.post('http://yukine.me/blfc/interest', { email: $email.val() })
+  $.post('http://api.yukine.me/blfc/interest', { email: $email.val() })
     .then(() => {
       $form.hide();
       $errors.hide();
