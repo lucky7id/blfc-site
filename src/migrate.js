@@ -2,7 +2,7 @@ require('dotenv').config();
 const mysql = require('mysql');
 
 const sql = `
-CREATE TABLE IF NOT EXISTS riders (
+CREATE TABLE IF NOT EXISTS interest (
   email VARCHAR(255) PRIMARY KEY,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
