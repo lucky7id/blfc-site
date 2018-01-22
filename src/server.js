@@ -130,8 +130,14 @@ blfc.post('/riders', (req, res, next) => {
       mailer.sendWelcome(email, squareRes.checkout.checkout_page_url, name, id);
 
       return db.updateUser({ checkout_id: squareRes.checkout.id, tip: tipAmount }, { id })
-        .then(() => res.send({url: squareRes.checkout.checkout_page_url}))
+        .then(() => res.send({ url: squareRes.checkout.checkout_page_url }))
         .catch(next);
+    })
+    .then(() => db.getInterest(email))
+    .then((interest) => {
+      if (interest && interest.length) return db.removeInterest(email);
+
+      return undefined;
     })
     .catch(next);
 });
@@ -149,8 +155,21 @@ blfc.get('/confirm', (req, res, next) => {
     .catch(next);
 });
 
+blfc.post('/interest', (req, res, next) => {
+  if (!req.body.email || !isemail.validate(req.body.email)) return next('Must submit a valid email');
+
+  console.log('\n[Interest Add]', req.body, '\n');
+
+  return db.addInterest(req.body.email)
+    .then(() => {
+      mailer.sendInterest(req.body.email, req.body.email);
+      res.send({ success: true });
+    })
+    .catch(next);
+});
+
 const errorHandler = function errorHandler(err, req, res, next) {
-  console.error(err);
+  console.error(err); //eslint-disable-line
 
   if (err.message === 'bus-full') {
     return res.send({ status: 'bus-full' });

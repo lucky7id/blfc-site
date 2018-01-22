@@ -16,6 +16,15 @@ Thanks,<br />
 Yukine
 `);
 
+const interestBody = () => (`
+Thanks for your interest! If you have any feedback please feel free to reply directly to this email, or join the telegram below.
+When you are ready to complete sign up use <a href="http://yukine.me/blfc/?reserveCb=true" style="color: #3498db; text-decoration: underline;">this link.</a>
+<br />
+<br />
+Thanks,<br />
+Yukine
+`);
+
 const confirmedBody = () => (`
 You are free to move about the bus! We've recieved your payment successfully, and your spot on the bus is now reserved.
 As a reminder, you have until <b>April 15, 2018</b> to request a refund. Should you need to do that please refer to the links in the bottom.
@@ -210,7 +219,7 @@ class Mailer {
     this.transporter.sendMail({
       to,
       from: 'blfcbaybus@gmail.com',
-      subject: 'Welcome to the biggest little furry coach',
+      subject: 'Welcome to the Big Lit Fur Coach',
       html: template('Thanks for signing up!', welcomeBody(checkoutUrl, id), name),
     }, (err) => {
       if (err) console.error(err); //eslint-disable-line
@@ -221,8 +230,19 @@ class Mailer {
     this.transporter.sendMail({
       to,
       from: 'blfcbaybus@gmail.com',
-      subject: 'You are all set for the biggest little furry coach',
+      subject: 'You are all set for the Big Lit Fur Coach',
       html: template('You are confirmed!', confirmedBody(), name),
+    }, (err) => {
+      if (err) console.error(err); //eslint-disable-line
+    });
+  }
+
+  sendInterest(to, name) {
+    this.transporter.sendMail({
+      to,
+      from: 'blfcbaybus@gmail.com',
+      subject: 'Thanks for your interest is the Big Lit Fur Coach',
+      html: template('Thanks for your interest!', interestBody(), name),
     }, (err) => {
       if (err) console.error(err); //eslint-disable-line
     });

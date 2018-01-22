@@ -1,9 +1,10 @@
 require('dotenv').config();
 const mysql = require('mysql');
+
 const pool = mysql.createPool({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
-  database: process.env.DB_NAME
+  database: process.env.DB_NAME,
 });
 
 class Db {
@@ -22,7 +23,34 @@ class Db {
   addRider(rider) {
     const options = {
       sql: 'INSERT INTO riders SET ?',
-      values: [rider]
+      values: [rider],
+    };
+
+    return this.getQuery(options);
+  }
+
+  addInterest(email) {
+    const options = {
+      sql: 'INSERT INTO interest SET email=?',
+      values: [email],
+    };
+
+    return this.getQuery(options);
+  }
+
+  removeInterest(email) {
+    const options = {
+      sql: 'DELETE FROM interest WHERE email=?',
+      values: [email],
+    };
+
+    return this.getQuery(options);
+  }
+
+  getInterest(email) {
+    const options = {
+      sql: 'SELECT * FROM interest WHERE email=?',
+      values: [email],
     };
 
     return this.getQuery(options);
@@ -31,8 +59,8 @@ class Db {
   getConfirmedCount() {
     const options = {
       sql: 'SELECT * FROM riders WHERE ?',
-      values: [{confirmed: 1}]
-    }
+      values: [{ confirmed: 1 }],
+    };
 
     return this.getQuery(options);
   }
@@ -40,8 +68,8 @@ class Db {
   getByEmail(email) {
     const options = {
       sql: 'SELECT * from riders WHERE ?',
-      values: [{email}]
-    }
+      values: [{ email }],
+    };
 
     return this.getQuery(options);
   }
@@ -49,8 +77,8 @@ class Db {
   getById(id) {
     const options = {
       sql: 'SELECT * from riders WHERE ?',
-      values: [{ id }]
-    }
+      values: [{ id }],
+    };
 
     return this.getQuery(options);
   }
@@ -60,16 +88,16 @@ class Db {
       sql: 'UPDATE riders SET ? WHERE ?',
       values: [
         set,
-        wheres
-      ]
-    }
+        wheres,
+      ],
+    };
 
     return this.getQuery(options);
   }
 
   getQuery(options) {
     return new Promise((resolve, reject) => {
-      this.pool.query(options, (e, res, fields) => {
+      this.pool.query(options, (e, res) => {
         if (e) return reject(e);
 
         return resolve(res);

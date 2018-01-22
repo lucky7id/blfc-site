@@ -96,11 +96,6 @@ const handleSubmit = (e) => {
             window.location = res.url;
           }, 3000);
         }
-
-        if (res.status !== 200) {
-          $errors.text((res.responseJSON && res.responseJSON.error) || res.responseText);
-          $errors.show();
-        }
       })
       .catch((err) => {
         console.error(err); //eslint-disable-line
@@ -112,6 +107,63 @@ const handleSubmit = (e) => {
         $('#terms-modal').modal('hide');
       });
   });
+};
+
+const handleInfoSubmit = () => {
+  let fetching = false;
+  const $form = $('#info-form');
+  const $form2 = $('#reserve-form');
+  const $errors = $('#form-errors');
+  const $feedback = $('#form-feedback');
+  const $email = $('#infoEmail');
+
+  if (fetching) return;
+
+  if (!$email.val()) {
+    $errors.text('Please provide a valid email');
+    $errors.show();
+
+    return;
+  }
+  fetching = true;
+
+  $.post('http://yukine.me/blfc/interest', { email: $email.val() })
+    .then(() => {
+      $form.hide();
+      $errors.hide();
+      $feedback.hide();
+      $('#info-copy').hide();
+      $('#reserve-copy').show();
+      $feedback.text('All Set, look for updates in your inbox');
+      $('#email').val($email.val());
+      $form2.show();
+    })
+    .catch((err) => {
+      console.error(err); //eslint-disable-line
+
+      $errors.text((err.responseJSON && err.responseJSON.error) || err.responseText);
+      $errors.show();
+    });
+};
+
+const moveToReg = () => {
+  const $feedback = $('#form-feedback');
+  const $email = $('#infoEmail');
+  const $form = $('#info-form');
+  const $form2 = $('#reserve-form');
+
+  if (!$email.val()) {
+    $feedback.text('Please provide a valid email');
+    $feedback.show();
+
+    return;
+  }
+
+  $('#email').val($email.val());
+  $form.hide();
+  $('#info-copy').hide();
+  $('#reserve-copy').show();
+  $form2.show();
 };
 
 
@@ -157,10 +209,14 @@ const renderTable = (data) => {
 
 const init = () => {
   const $submit = $('#reserve-submit');
+  const $infoSubmit = $('#info-submit');
+  const $infoReg = $('#info-reg');
 
   setTimeout(() => {
     $('#form-errors').hide();
     $('#form-feedback').hide();
+    $('#reserve-form').hide();
+    $('#reserve-copy').hide();
 
     if (window.location.search.includes('confirmed=true&cid=')) {
       $('#reserve-form').hide();
@@ -168,9 +224,21 @@ const init = () => {
       window.location.href = '#';
       window.location.href = '#reserve';
     }
+
+    if (window.location.search.includes('reserveCb=true')) {
+      $('#reserve-form').show();
+      $('#reserve-copy').show();
+      $('#info-form').show();
+      $('#info-copy').show();
+      window.location.href = '#';
+      window.location.href = '#reserve';
+    }
   });
 
   $submit.on('click', handleSubmit);
+  $infoSubmit.on('click', handleInfoSubmit);
+  $infoReg.on('click', moveToReg);
+
   $.getJSON('http://api.yukine.me/blfc/riders')
     .done(renderTable)
     .fail(console.error); //eslint-disable-line
