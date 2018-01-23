@@ -228,8 +228,8 @@ const init = () => {
     if (window.location.search.includes('reserveCb=true')) {
       $('#reserve-form').show();
       $('#reserve-copy').show();
-      $('#info-form').show();
-      $('#info-copy').show();
+      $('#info-form').hide();
+      $('#info-copy').hide();
       window.location.href = '#';
       window.location.href = '#reserve';
     }
