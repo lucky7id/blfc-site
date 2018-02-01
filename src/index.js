@@ -116,7 +116,6 @@ const doPost = (e) => {
 };
 
 const handleInfoSubmit = (e) => {
-  let fetching = false;
   const $form = $('#info-form');
   const $form2 = $('#reserve-form');
   const $errors = $('#form-errors');
