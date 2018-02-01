@@ -163,7 +163,7 @@ const moveToReg = (e) => {
 
   e.preventDefault();
   e.stopPropagation();
-  
+
   if (!$email.val()) {
     $feedback.text('Please provide a valid email');
     $feedback.show();
