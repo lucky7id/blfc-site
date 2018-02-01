@@ -120,7 +120,7 @@ blfc.post('/riders', (req, res, next) => {
       if (!rows || rows.length >= 61) throw new Error('bus-full');
 
       mailer.sendWelcome(email, name, id);
-      res.send({ url: `http://api.yukine.me/checkout/${id}` });
+      res.send({ url: `http://api.yukine.me/blfc/checkout/${id}` });
     })
     .then(() => db.getInterest(email))
     .then((interest) => {
