@@ -67,6 +67,9 @@ const handleSubmit = (e) => {
 };
 
 const doPost = () => {
+  const $form = $('#reserve-form');
+  const $errors = $('#form-errors');
+  const $feedback = $('#form-feedback');
   const data = {};
 
   $('#reserve-form').serializeArray().forEach((elm) => { data[elm.name] = elm.value; });
