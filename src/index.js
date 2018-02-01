@@ -126,15 +126,12 @@ const handleInfoSubmit = (e) => {
   e.preventDefault();
   e.stopPropagation();
 
-  if (fetching) return;
-
   if (!$email.val()) {
     $errors.text('Please provide a valid email');
     $errors.show();
 
     return;
   }
-  fetching = true;
 
   $.post('http://api.yukine.me/blfc/interest', { email: $email.val() })
     .then(() => {
