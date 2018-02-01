@@ -119,19 +119,8 @@ blfc.post('/riders', (req, res, next) => {
     .then((rows) => {
       if (!rows || rows.length >= 61) throw new Error('bus-full');
 
-      return square.createCheckout(
-        process.env.SQUARE_LOCATION_ID,
-        createOrder(tipAmount, id, email)
-      );
-    })
-    .then((squareRes) => {
-      if (!squareRes.checkout.id) return next('Could not get valid square id');
-
-      mailer.sendWelcome(email, squareRes.checkout.checkout_page_url, name, id);
-
-      return db.updateUser({ checkout_id: squareRes.checkout.id, tip: tipAmount }, { id })
-        .then(() => res.send({ url: squareRes.checkout.checkout_page_url }))
-        .catch(next);
+      mailer.sendWelcome(email, name, id);
+      res.send({ url: `http://yukine.me/checkout/${id}` });
     })
     .then(() => db.getInterest(email))
     .then((interest) => {
@@ -167,6 +156,34 @@ blfc.post('/interest', (req, res, next) => {
     })
     .catch(next);
 });
+
+blfc.get('/checkout/:id', (req, res, next) => {
+  let foundRider;
+  
+  console.log(`\n[checkout][id]: ${req.params.id}\n`);
+  
+  db.getById(req.params.id)
+    .then(([rider]) => {
+      if (!rider) throw new Error('No rider found');
+
+      foundRider = rider;
+
+      return square.createCheckout(
+        process.env.SQUARE_LOCATION_ID,
+        createOrder(rider.tip, rider.id, rider.email)
+      );
+    })
+    .then((squareRes) => {
+      if (!squareRes.checkout.id) return next('Could not get valid square id');
+      
+      console.log(`\n[checkout][square res]: ${squareRes.checkout.checkout_page_url}`, foundRider, '\n');
+      
+      return db.updateUser({ checkout_id: squareRes.checkout.id, tip: foundRider.tip }, { id: req.params.id })
+        .then(() => res.redirect(squareRes.checkout.checkout_page_url))
+        .catch(next);
+    })
+  
+})
 
 const errorHandler = function errorHandler(err, req, res, next) {
   console.error(err); //eslint-disable-line
