@@ -72,7 +72,7 @@ const doPost = () => {
   const $feedback = $('#form-feedback');
   const data = {};
 
-  $('#reserve-form').serializeArray().forEach((elm) => { data[elm.name] = elm.value; });
+  $form.serializeArray().forEach((elm) => { data[elm.name] = elm.value; });
 
   $.post('http://api.yukine.me/blfc/riders', Object.assign({}, data, { tos_accept: true }), 'json')
     .then((res) => {
@@ -109,7 +109,7 @@ const doPost = () => {
     .always(() => {
       $('#terms-modal').modal('hide');
     });
-}
+};
 
 const handleInfoSubmit = () => {
   let fetching = false;
