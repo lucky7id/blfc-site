@@ -14,6 +14,7 @@ const handleSubmit = (e) => {
   const data = {};
 
   e.preventDefault();
+  e.stopPropagation();
   $errors.hide();
   $feedback.hide();
 
@@ -66,11 +67,14 @@ const handleSubmit = (e) => {
   $('#terms-modal').modal('show');
 };
 
-const doPost = () => {
+const doPost = (e) => {
   const $form = $('#reserve-form');
   const $errors = $('#form-errors');
   const $feedback = $('#form-feedback');
   const data = {};
+
+  e.stopPropagation();
+  e.stopPropagation();
 
   $form.serializeArray().forEach((elm) => { data[elm.name] = elm.value; });
 
@@ -111,13 +115,16 @@ const doPost = () => {
     });
 };
 
-const handleInfoSubmit = () => {
+const handleInfoSubmit = (e) => {
   let fetching = false;
   const $form = $('#info-form');
   const $form2 = $('#reserve-form');
   const $errors = $('#form-errors');
   const $feedback = $('#form-feedback');
   const $email = $('#infoEmail');
+
+  e.preventDefault();
+  e.stopPropagation();
 
   if (fetching) return;
 
@@ -148,12 +155,15 @@ const handleInfoSubmit = () => {
     });
 };
 
-const moveToReg = () => {
+const moveToReg = (e) => {
   const $feedback = $('#form-feedback');
   const $email = $('#infoEmail');
   const $form = $('#info-form');
   const $form2 = $('#reserve-form');
 
+  e.preventDefault();
+  e.stopPropagation();
+  
   if (!$email.val()) {
     $feedback.text('Please provide a valid email');
     $feedback.show();
