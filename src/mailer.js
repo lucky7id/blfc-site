@@ -2,7 +2,7 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 const { htmlToText } = require('nodemailer-html-to-text');
 
-const welcomeBody = (checkoutUrl, id) => (`
+const welcomeBody = (id) => (`
 We've got your info, and have added you to the pre-confirmed list. You should have been redirected to Square's site for payment.
 In case you were not redirected, you can finish your reservation <a href="http://yukine.me/blfc/checkout/${id}" style="color: #3498db; text-decoration: underline;">here</a>
 <br />
@@ -220,7 +220,7 @@ class Mailer {
       to,
       from: 'blfcbaybus@gmail.com',
       subject: 'Welcome to the Big Lit Fur Coach',
-      html: template('Thanks for signing up!', welcomeBody(checkoutUrl, id), name),
+      html: template('Thanks for signing up!', welcomeBody(id), name),
     }, (err) => {
       if (err) console.error(err); //eslint-disable-line
     });

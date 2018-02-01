@@ -8,13 +8,10 @@ import './styles/style.sass';
 import confirmed from './img/confirmed.png';
 
 const handleSubmit = (e) => {
-  let fetching = false;
   const $form = $('#reserve-form');
   const $errors = $('#form-errors');
   const $feedback = $('#form-feedback');
   const data = {};
-
-  if (fetching) return;
 
   e.preventDefault();
   $errors.hide();
@@ -67,47 +64,49 @@ const handleSubmit = (e) => {
   }
 
   $('#terms-modal').modal('show');
-  $('#terms-modal button').on('click', () => {
-    $('#terms-modal button').off('click');
-    fetching = true;
-
-    $.post('http://api.yukine.me/blfc/riders', Object.assign({}, data, { tos_accept: true }), 'json')
-      .then((res) => {
-        if (res.status === 'bus-full') {
-          $feedback.text('Looks like the bus is full, but we have saved your info and will reach out should more spots open up');
-          $feedback.show();
-        }
-
-        if (res.status === 'not-21') {
-          $feedback.text('Looks like you will not be 21 in time for this bus. We have saved your info and will reach out should a second all ages bus open');
-          $feedback.show();
-        }
-
-        if (res.status === 'email-found') {
-          $feedback.text('Looks like someone already signed up with that email');
-          $feedback.show();
-        }
-
-        if (res.url) {
-          $feedback.text('Awesome! Your info submitted successfully, in 3 seconds you will be redirected to square');
-          $feedback.show();
-
-          setTimeout(() => {
-            window.location = res.url;
-          }, 3000);
-        }
-      })
-      .catch((err) => {
-        console.error(err); //eslint-disable-line
-
-        $errors.text((err.responseJSON && err.responseJSON.error) || err.responseText);
-        $errors.show();
-      }) //eslint-disable-line
-      .always(() => {
-        $('#terms-modal').modal('hide');
-      });
-  });
 };
+
+const doPost = () => {
+  const data = {};
+
+  $('#reserve-form').serializeArray().forEach((elm) => { data[elm.name] = elm.value; });
+
+  $.post('http://api.yukine.me/blfc/riders', Object.assign({}, data, { tos_accept: true }), 'json')
+    .then((res) => {
+      if (res.status === 'bus-full') {
+        $feedback.text('Looks like the bus is full, but we have saved your info and will reach out should more spots open up');
+        $feedback.show();
+      }
+
+      if (res.status === 'not-21') {
+        $feedback.text('Looks like you will not be 21 in time for this bus. We have saved your info and will reach out should a second all ages bus open');
+        $feedback.show();
+      }
+
+      if (res.status === 'email-found') {
+        $feedback.text('Looks like someone already signed up with that email');
+        $feedback.show();
+      }
+
+      if (res.url) {
+        $feedback.text('Awesome! Your info submitted successfully, in 3 seconds you will be redirected to square');
+        $feedback.show();
+
+        setTimeout(() => {
+          window.location = res.url;
+        }, 3000);
+      }
+    })
+    .catch((err) => {
+      console.error(err); //eslint-disable-line
+
+      $errors.text((err.responseJSON && err.responseJSON.error) || err.responseText);
+      $errors.show();
+    }) //eslint-disable-line
+    .always(() => {
+      $('#terms-modal').modal('hide');
+    });
+}
 
 const handleInfoSubmit = () => {
   let fetching = false;
@@ -211,6 +210,7 @@ const init = () => {
   const $submit = $('#reserve-submit');
   const $infoSubmit = $('#info-submit');
   const $infoReg = $('#info-reg');
+  const $termsSubmit = $('#terms-modal button');
 
   setTimeout(() => {
     $('#form-errors').hide();
@@ -238,6 +238,7 @@ const init = () => {
   $submit.on('click', handleSubmit);
   $infoSubmit.on('click', handleInfoSubmit);
   $infoReg.on('click', moveToReg);
+  $termsSubmit.on('click', doPost);
 
   $.getJSON('http://api.yukine.me/blfc/riders')
     .done(renderTable)
