@@ -159,13 +159,13 @@ blfc.post('/interest', (req, res, next) => {
 
 blfc.get('/checkout/:id', (req, res, next) => {
   let foundRider;
-  
+
   console.log(`\n[checkout][id]: ${req.params.id}\n`);
-  
+
   db.getById(req.params.id)
     .then(([rider]) => {
       if (!rider) throw new Error('No rider found');
-
+      console.log(rider);
       foundRider = rider;
 
       return square.createCheckout(
@@ -175,15 +175,19 @@ blfc.get('/checkout/:id', (req, res, next) => {
     })
     .then((squareRes) => {
       if (!squareRes.checkout.id) return next('Could not get valid square id');
-      
+
       console.log(`\n[checkout][square res]: ${squareRes.checkout.checkout_page_url}`, foundRider, '\n');
-      
+
       return db.updateUser({ checkout_id: squareRes.checkout.id, tip: foundRider.tip }, { id: req.params.id })
         .then(() => res.redirect(squareRes.checkout.checkout_page_url))
         .catch(next);
     })
-  
-})
+    .catch((e) => {
+      console.error(`\n[checkout][Fail]: ${e.message || e}\n`)
+
+      res.send('Could not get a valid square link');
+    });
+});
 
 const errorHandler = function errorHandler(err, req, res, next) {
   console.error(err); //eslint-disable-line
