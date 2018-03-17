@@ -4,9 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const eslintFormater = require('eslint-friendly-formatter');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const plugins = [
   new CleanWebpackPlugin(['dist']),
+
+  new UglifyJsPlugin(),
 
   new webpack.ProvidePlugin({
     _: 'lodash',
@@ -30,6 +34,8 @@ const plugins = [
   new CopyWebpackPlugin([
     { from: './img', to: 'img'},
   ]),
+
+  new ExtractTextPlugin("styles.css")
 ];
 
 module.exports = {
@@ -92,12 +98,11 @@ module.exports = {
       },
 
       {
-        test: /\.(css)$/,
-        use: [{
-          loader: 'style-loader', // creates style nodes from JS strings
-        }, {
-          loader: 'css-loader', // translates CSS into CommonJS
-        }],
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader"
+        })
       },
 
       {
