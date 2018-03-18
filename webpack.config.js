@@ -10,7 +10,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const plugins = [
   new CleanWebpackPlugin(['dist']),
 
-  new UglifyJsPlugin(),
+  //new UglifyJsPlugin(),
 
   new webpack.ProvidePlugin({
     _: 'lodash',
