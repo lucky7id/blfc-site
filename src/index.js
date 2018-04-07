@@ -94,12 +94,8 @@ const doPost = (e) => {
       }
 
       if (res.url) {
-        $feedback.text('Awesome! Your info submitted successfully, in 3 seconds you will be redirected to square');
+        $feedback.html(`Awesome! Your info submitted successfully, check your email for a link to finish your registration, <a href="${res.url}>" or click here to finish now.</a>`);
         $feedback.show();
-
-        setTimeout(() => {
-          window.location = res.url;
-        }, 3000);
       }
     })
     .catch((err) => {
