@@ -53,7 +53,7 @@ const createOrder = (tip, id, email) => ({
         name: 'Seat Reservation',
         quantity: '1',
         base_price_money: {
-          amount: 70 * 100,
+          amount: 80 * 100,
           currency: 'USD',
         },
       },
@@ -108,7 +108,7 @@ blfc.post('/riders', (req, res, next) => {
       if (rider && rider.length) throw new Error('email-found');
 
       return db.addRider({
-        id, name, char_name, email, birth_date, twitter, telegram, tip,
+        id, name, char_name, email, birth_date: moment(birth_date).format('YYYY-MM-DD'), twitter, telegram, tip,
       });
     })
     .then(() => {
@@ -117,7 +117,7 @@ blfc.post('/riders', (req, res, next) => {
       return db.getConfirmedCount();
     })
     .then((rows) => {
-      if (!rows || rows.length >= 61) throw new Error('bus-full');
+      if (!rows || rows.length >= 50) throw new Error('bus-full');
 
       mailer.sendWelcome(email, name, id);
       res.send({ url: `http://api.yukine.me/blfc/checkout/${id}` });
