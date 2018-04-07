@@ -218,7 +218,7 @@ const init = () => {
   const $infoSubmit = $('#info-submit');
   const $infoReg = $('#info-reg');
   const $termsSubmit = $('#terms-modal button');
-  const confirmedMessage = '<span>You are all set! Thanks for riding with us! Please fill out the <a href="https://docs.google.com/forms/d/e/1FAIpQLSeL6P964tdx6-VHJ1Jq8jpHQQHHTCAiiQz0eQx_bVb0aeGt2g/viewform?usp=sf_link"> luggage form </a> to help us plan!</span>'
+  const confirmedMessage = '<span>You are all set! Thanks for riding with us! Please fill out the <a href="https://docs.google.com/forms/d/e/1FAIpQLSeL6P964tdx6-VHJ1Jq8jpHQQHHTCAiiQz0eQx_bVb0aeGt2g/viewform?usp=sf_link"> luggage form </a> to help us plan!</span>';
 
   setTimeout(() => {
     $('#form-errors').hide();
