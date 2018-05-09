@@ -38,44 +38,44 @@ Yukine
 
 const finalBody = () => (`
 Our departure is coming right up and I wanted to make sure we are all on the same page before we head out, so you know what to to expect and how to be best prepared.
-<br />
+<br /><br />
 If you are not already in the bus chat, I HIGHLY recommend joining asap, to get the latest updates up to the minute. <a href="https://t.me/blfcbaybus" style="color: #3498db; text-decoration: underline;">BLFC bus chat</a>
-<br />
-**Meetup Spot**
+<br /><br />
+<b>Meetup Spot</b></br>
 Tentatively, let’s meet in front of the Milbrae transit center around the bus station on Camino Millenia. It is directly in front of the main entrance to the bart station. I won’t have an exact pickup location until UCT sends me contact info for the driver on Wednesday.
-<br />
-**Parking**
+<br /><br />
+<b>Parking</b></br>
 You are able to buy an extended parking pass from <a href="https://www.select-a-spot.com/bart/" style="color: #3498db; text-decoration: underline;">here</a>
-You will want to choose APLT pass, and that will allow you to keep your car parked for the duration of the trip. **You will need to display the pass in your windshield** After plugging in the dates, I came up with a cost of $35
-<br />
-**Suiting**
+You will want to choose APLT pass, and that will allow you to keep your car parked for the duration of the trip. <b>You will need to display the pass in your windshield</b> After plugging in the dates, I came up with a cost of $35
+<br /><br />
+<b>Suiting</b></br>
 There is not an official spot to change, however the bus does have a (very tiny) bathroom that can be used. I will attempt to put up a sheet in the back of the bus for a makeshift changing room (don’t hold your breath though).
-<br />
-**Food**
+<br /><br />
+<b>Food</b></br>
 There are quite a few food options around the station. I recommend getting there early to take advantage of that. You will be able to bring food on the bus, just be careful not to leave a mess as I will be charged extra if we leave the bus in an unacceptable state.
-<br />
-**Alcohol**
-Alcohol IS allowed on the bus, BUT **no glass containers are allowed** That means, if you plan to drink something that doesn’t come out of a can, you’ll need to put it into your own plastic container. And this should go without saying, but, we are all adults (lol) and should be able to handle ourselves. The bus driver is people too, so let’s make his journey enjoyable too by behaving ourselves.
-<br />
-**Badges**
+<br /><br />
+<b>Alcohol</b></br>
+Alcohol IS allowed on the bus, BUT <b>no glass containers are allowed</b> That means, if you plan to drink something that doesn’t come out of a can, you’ll need to put it into your own plastic container. And this should go without saying, but, we are all adults (lol) and should be able to handle ourselves. The bus driver is people too, so let’s make his journey enjoyable too by behaving ourselves.
+<br /><br />
+<b>Badges</b></br>
 There is a small change to when we will be getting the badges, due to unforeseen delays with the con registration receiving their swag. What this means for us, we will have the badges run out to us as we arrive at the con.
-<br />
-**Entertainment**
+<br /><br />
+<b>Entertainment</b></br>
 Mike has been working hard putting together a media plan and has a few tricks up his sleeve so that we have something to enjoy (besides each other) while we make the journey. More to come on that when we board the bus :)
-<br />
-**Important Times**
-The bus **leaves**  Milbrae at 11:00 AM - that means you should plan to be at the station a minimum of 30 minutes before departure. Assuming a 4.5 hour drive, that puts us in Reno around 3:30. I know the 30 minute arrival is going to be tough for a few of you, so just keep me updated morning of.
-<br />
-Our return bus *leaves* Reno at 3:30 PM - that means assuming a 4.5 hour trip we will arrive back in Milbrae around 8:00 PM. **Make sure you keep notifications enabled for any critical updates**
-<br />
-**Things I shouldn’t need to say, but will anyway (Rules)**
+<br /><br />
+<b>Important Times</b></br>
+The bus <b>leaves</b>  Milbrae at 11:00 AM - that means you should plan to be at the station a minimum of 30 minutes before departure. Assuming a 4.5 hour drive, that puts us in Reno around 3:30. I know the 30 minute arrival is going to be tough for a few of you, so just keep me updated morning of.
+<br /><br />
+Our return bus <b>leaves</b> Reno at 3:30 PM - that means assuming a 4.5 hour trip we will arrive back in Milbrae around 8:00 PM. <b>Make sure you keep notifications enabled for any critical updates</b>
+<br /><br />
+<b>Things I shouldn’t need to say, but will anyway (Rules)</b></br>
 - Keep it in your pants, you’ll have plenty of time at the con, lets not ruin the driver’s day
 - Be respectful of those around you
 - Smoking/Vaping NOT allowed on the bus
 - When in doubt use your noggin, or tap Yukine on the shoulder and whisper sweet nothings (or a question)
-<br />
+<br /><br />
 Most importantly, thank you all for joining me on this journey. None of this would be possible without you. 
-<br />
+<br /><br />
 Thanks,<br/>
 Yukine
 `);
