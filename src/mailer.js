@@ -36,6 +36,50 @@ Thanks,<br />
 Yukine
 `);
 
+const finalBody = () => (`
+Our departure is coming right up and I wanted to make sure we are all on the same page before we head out, so you know what to to expect and how to be best prepared.
+
+If you are not already in the bus chat, I HIGHLY recommend joining asap, to get the latest updates up to the minute. <a href="https://t.me/blfcbaybus" style="color: #3498db; text-decoration: underline;">BLFC bus chat</a>
+
+**Meetup Spot**
+Tentatively, let’s meet in front of the Milbrae transit center around the bus station on Camino Millenia. It is directly in front of the main entrance to the bart station. I won’t have an exact pickup location until UCT sends me contact info for the driver on Wednesday.
+
+**Parking**
+You are able to buy an extended parking pass from <a href="https://www.select-a-spot.com/bart/" style="color: #3498db; text-decoration: underline;">here</a>
+You will want to choose APLT pass, and that will allow you to keep your car parked for the duration of the trip. **You will need to display the pass in your windshield** After plugging in the dates, I came up with a cost of $35
+
+**Suiting**
+There is not an official spot to change, however the bus does have a (very tiny) bathroom that can be used. I will attempt to put up a sheet in the back of the bus for a makeshift changing room (don’t hold your breath though).
+
+**Food**
+There are quite a few food options around the station. I recommend getting there early to take advantage of that. You will be able to bring food on the bus, just be careful not to leave a mess as I will be charged extra if we leave the bus in an unacceptable state.
+
+**Alcohol**
+Alcohol IS allowed on the bus, BUT **no glass containers are allowed** That means, if you plan to drink something that doesn’t come out of a can, you’ll need to put it into your own plastic container. And this should go without saying, but, we are all adults (lol) and should be able to handle ourselves. The bus driver is people too, so let’s make his journey enjoyable too by behaving ourselves.
+
+**Badges**
+There is a small change to when we will be getting the badges, due to unforeseen delays with the con registration receiving their swag. What this means for us, we will have the badges run out to us as we arrive at the con.
+
+**Entertainment**
+Mike has been working hard putting together a media plan and has a few tricks up his sleeve so that we have something to enjoy (besides each other) while we make the journey. More to come on that when we board the bus :)
+
+**Important Times**
+The bus **leaves**  Milbrae at 11:00 AM - that means you should plan to be at the station a minimum of 30 minutes before departure. Assuming a 4.5 hour drive, that puts us in Reno around 3:30. I know the 30 minute arrival is going to be tough for a few of you, so just keep me updated morning of.
+
+Our return bus *leaves* Reno at 3:30 PM - that means assuming a 4.5 hour trip we will arrive back in Milbrae around 8:00 PM. **Make sure you keep notifications enabled for any critical updates**
+
+**Things I shouldn’t need to say, but will anyway (Rules)**
+- Keep it in your pants, you’ll have plenty of time at the con, lets not ruin the driver’s day
+- Be respectful of those around you
+- Smoking/Vaping NOT allowed on the bus
+- When in doubt use your noggin, or tap Yukine on the shoulder and whisper sweet nothings (or a question)
+
+Most importantly, thank you all for joining me on this journey. None of this would be possible without you. 
+
+Thanks,<br/>
+Yukine
+`);
+
 const template = (preheader, body, name) => (`
 <!doctype html>
 <html>
@@ -199,6 +243,8 @@ const template = (preheader, body, name) => (`
 </html>
 `)
 
+
+
 class Mailer {
   constructor() {
     this.transporter = nodemailer.createTransport({
@@ -243,6 +289,17 @@ class Mailer {
       from: 'blfcbaybus@gmail.com',
       subject: 'Thanks for your interest is the Big Lit Fur Coach',
       html: template('Thanks for your interest!', interestBody(), name),
+    }, (err) => {
+      if (err) console.error(err); //eslint-disable-line
+    });
+  }
+
+  sendFinal(to, name) {
+    this.transporter.sendMail({
+      to,
+      from: 'blfcbaybus@gmail.com',
+      subject: `We're just about ready to launch`,
+      html: template('A final rundown of everything you need to know', finalBody(), name),
     }, (err) => {
       if (err) console.error(err); //eslint-disable-line
     });
