@@ -209,11 +209,21 @@ const renderTable = (data) => {
   });
 };
 
+const handleStart = () => {
+  const $hidden = $('section.d-none');
+
+  $hidden.removeClass('d-none');
+  $hidden.hide(0);
+  $hidden.fadeIn(700);
+  $('html, body').animate({ scrollTop: $('#info').offset().top }, 500);
+};
+
 const init = () => {
   const $submit = $('#reserve-submit');
   const $infoSubmit = $('#info-submit');
   const $infoReg = $('#info-reg');
   const $termsSubmit = $('#terms-modal button');
+  const $start = $('#start');
   const confirmedMessage = '<span>You are all set! Thanks for riding with us! Please fill out the <a href="https://docs.google.com/forms/d/e/1FAIpQLSeL6P964tdx6-VHJ1Jq8jpHQQHHTCAiiQz0eQx_bVb0aeGt2g/viewform?usp=sf_link"> luggage form </a> to help us plan!</span>';
 
   setTimeout(() => {
@@ -243,6 +253,7 @@ const init = () => {
   $infoSubmit.on('click', handleInfoSubmit);
   $infoReg.on('click', moveToReg);
   $termsSubmit.on('click', doPost);
+  $start.on('click', handleStart);
 
   $.getJSON('http://api.yukine.me/blfc/riders')
     .done(renderTable)

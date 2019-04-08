@@ -34,25 +34,9 @@
 
   <body>
     <section id="hero">
-      <div class="container-fluid">
+      <div class="container-fluid d-flex flex-column u-80vh" id="splash">
         <div class="row">
-          <div class="col-2 d-none d-lg-block">
-            <div class="avatar-container">
-              <img src="/blfc/img/chibi.png" class="img-fluid" />
-            </div>
-          </div>
-          <div class="col align-self-center text-center">
-            <h1>Big Lit Fur Coach</h1>
-            <h2>Brought to you by Yukine & Canis Vulpes</h2>
-          </div>
-          <div class="col-2 align-self-center d-none d-lg-block">
-            <div class="avatar-container">
-              <img src="/blfc/img/canis_vulpis.png" class="img-fluid" />
-            </div>
-          </div>
-        </div>
-        <div class="row justify-content-center">
-          <div class="col-lg-3 col-8">
+          <div class="col-lg-1 col-8">
             <div class="social-link-container d-flex justify-content-between">
               <a class="social-link" href="https://t.me/blfcbaybus" target="_blank">
                 <i class="socicon-telegram"></i>
@@ -66,13 +50,89 @@
             </div>
           </div>
         </div>
+        <div class="row flex-grow-1">
+          <div class="col align-self-center text-center">
+            <h1>A great adventure awaits</h1>
+            <h2>Will you join the party?</h2>
+            <div class="mt-5">
+              <button class="btn btn-warning btn-lg" id="start">Take Me To BLFC</button>
+            </div>
+          </div>
+        </div>
+        
       </div>
-      <img src="/blfc/img/splash.png" class="img-fluid hero-splash" />
     </section>
-    <section id="info">
+    <section id="info" class="d-none">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-2 bg bg-1 d-none d-lg-block"></div>
+          <div class="col">
+            <div class="card border-warning bg-transparent">
+              <div class="card-header bg-warning"><h5 class="text-body">Departure</h5></div>
+              <div class="card-body bg-none">
+                <div class="d-flex justify-content-between w-50 mt-5 mb-5 ml-auto mr-auto">
+                  <img class="img-fluid" src="/blfc/img/california.png" />
+                  <i class="material-icons text-warning" style="font-size: 10rem">chevron_right</i>
+                  <img class="img-fluid" src="/blfc/img/nevada.png" />
+                </div>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-transparent d-flex">
+                  <i class="material-icons text-warning mr-3 align-self-center">explore</i>
+                  <div>
+                    Milbrae Caltrain Station<br />
+                    100 California Dr, Millbrae, CA 94030
+                  </div>
+                </li>
+                <li class="list-group-item bg-transparent d-flex">
+                  <i class="material-icons text-warning mr-3">event</i>
+                  <div class="align-self-center">Wednesday, May 15 2018</div>
+                </li>
+                <li class="list-group-item bg-transparent d-flex">
+                  <i class="material-icons text-warning mr-3">access_time</i>
+                  <div class="align-self-center">1:00 PM</div>
+                </li>
+                <li class="list-group-item bg-transparent d-flex">
+                  <i class="material-icons text-warning mr-3">info</i>
+                  <div class="align-self-center">We will meet in the parking lot, pack our stuff, and head to BLFC!</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card border-warning bg-transparent">
+              <div class="card-header bg-warning"><h5 class="text-body">Return</h5></div>
+              <div class="card-body bg-none">
+                <div class="d-flex justify-content-between w-50 mt-5 mb-5 ml-auto mr-auto">
+                  <img class="img-fluid" src="/blfc/img/nevada.png" />
+                  <i class="material-icons text-warning" style="font-size: 10rem">chevron_right</i>
+                  <img class="img-fluid" src="/blfc/img/california.png" />
+                </div>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-transparent d-flex">
+                  <i class="material-icons text-warning mr-3 align-self-center">explore</i>
+                  <div>
+                    Grand Sierra Resort<br />
+                    2500 E 2nd St, Reno, NV 89595
+                  </div>
+                </li>
+                <li class="list-group-item bg-transparent d-flex">
+                  <i class="material-icons text-warning mr-3">event</i>
+                  <div class="align-self-center">Monday, May 20 2018</div>
+                </li>
+                <li class="list-group-item bg-transparent d-flex">
+                  <i class="material-icons text-warning mr-3">access_time</i>
+                  <div class="align-self-center">3:30 PM</div>
+                </li>
+                <li class="list-group-item bg-transparent d-flex">
+                  <i class="material-icons text-warning mr-3">info</i>
+                  <div class="align-self-center">We will meet in the parking lot, pack our stuff, and head home!</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-5" hidden>
           <div class="col">
             <h2>About</h2>
             <p class="mt-3">
@@ -89,142 +149,74 @@
               If there is enough interest from younger furballs, we will look into chartering an additional bus.
               Trip includes ride to Reno as well as return ride back to Milbrae.
             </p>
-            <div class="row mt-5">
-              <div class="col">
-                <h3>Skip the BLFC Registration line!</h3>
-                <p class="mt-3">
-                  As if this weren't cool enough, the awesome furs on the BLFC staff have given us the best perk possible!
-                  If you register for the both the bus and BLFC <span class="font-weight-bold">before April 20th, you'll get your
-                  con badge and swag right when you board!</span> No waiting in long lines, just show up, settle in, and get your BLFC
-                  started right.
-                </p>
-              </div>
-            </div>
-            <div class="row mt-5">
-              <div class="col">
-                <h3>A word about luggage</h3>
-                <p class="mt-3">
-                  To make sure that space is maximized for fursuit cases, we ask that you try to use the smallest luggage possible.
-                  We have reserved the last few rows of the bus for overflow space, and there is overhead storage in addition to the
-                  undercarriage luggage space. We are asking for an optional $10 donation for any oversized bags, to help cover the cost
-                  of the reserved luggage seats. We thank you in advance for packing as lightly as possible!
-                </p>
-              </div>
-            </div>
-            <div class="row mt-5">
-              <div class="col-md-5">
-                <h3>Departure</h3>
-                <div class="d-flex mb-3 mt-4 info-item">
-                  <i class="material-icons align-self-center">explore</i>
-                  <div>
-                    Milbrae Caltrain Station<br />
-                    100 California Dr, Millbrae, CA 94030
-                  </div>
-                </div>
-                <div class="d-flex mb-3 info-item">
-                  <i class="material-icons">event</i>
-                  <div class="align-self-center">
-                    Thursday, May 10 2018
-                  </div>
-                </div>
-                <div class="d-flex mb-3 info-item">
-                  <i class="material-icons">access_time</i>
-                  <div class="align-self-center">
-                    11:00 AM
-                  </div>
-                </div>
-                <div class="d-flex mb-3 info-item">
-                  <i class="material-icons">info</i>
-                  <div class="align-self-center">
-                      We will meet in the parking lot, pack our stuff, and head to BLFC!
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-5 offset-md-1 col-sm-12">
-                <h3>Return</h3>
-                <div class="d-flex mb-3 mt-4 info-item">
-                  <i class="material-icons align-self-center">explore</i>
-                  <div>
-                    Grand Sierra Resort<br />
-                    2500 E 2nd St, Reno, NV 89595
-                  </div>
-                </div>
-                <div class="d-flex mb-3 info-item">
-                  <i class="material-icons">event</i>
-                  <div class="align-self-center">
-                    Monday, May 14 2018
-                  </div>
-                </div>
-                <div class="d-flex mb-3 info-item">
-                  <i class="material-icons">access_time</i>
-                  <div class="align-self-center">
-                     3:30 PM
-                  </div>
-                </div>
-                <div class="d-flex mb-3 info-item">
-                  <i class="material-icons">info</i>
-                  <div class="align-self-center">
-                    We will meet in the parking lot, pack our stuff, and head home!
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row mt-5 mb-5" hidden>
-              <div class="col">
-                <h3>Flying From Out of State?</h3>
-                <p class="mt-3">
-                  We have a limited number of discount codes for Alsaka and United flights into bay area hub airports. To claim yours sign
-                  up, and reach out via the
-                  <a href="https://t.me/blfcbaybus">Big Lit Fur Coach Telegram.</a>
-                </p>
-              </div>
-            </div>
-            <div class="row mt-5 mb-5">
-              <div class="col">
-                <h2>General Info</h2>
-                <div class="d-flex rule">
-                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
-                  <div class="align-self-center">Cost is $80</div>
-                </div>
-                <div class="d-flex rule">
-                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
-                  <div class="align-self-center">This is a round trip, price includes pickup and return from Milbrae</div>
-                </div>
-                <div class="d-flex rule">
-                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
-                  <div class="align-self-center">21+ Must bring valid ID that matches name on reservation</div>
-                </div>
-                <div class="d-flex rule">
-                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
-                  <div class="align-self-center">61 seats available</div>
-                </div>
-                <div class="d-flex rule">
-                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
-                  <div class="align-self-center">No glass containers on the bus</div>
-                </div>
-                <div class="d-flex rule">
-                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
-                  <div class="align-self-center">Suits are okay and encouraged!</div>
-                </div>
-                <div class="d-flex rule">
-                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
-                  <div class="align-self-center">There will be entertainment provided during the drive</div>
-                </div>
-                <div class="d-flex rule">
-                  <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
-                  <div class="align-self-center">Tips will go towards providing water and snacks on the bus</div>
-                </div>
-                <p>
-
-                </p>
-              </div>
-            </div>
           </div>
-          <div class="col-2 bg bg-2 d-none d-lg-block"></div>
+        </div>
+        <div class="row mt-5" hidden>
+          <div class="col">
+            <h3>Skip the BLFC Registration line!</h3>
+            <p class="mt-3">
+              As if this weren't cool enough, the awesome furs on the BLFC staff have given us the best perk possible!
+              If you register for the both the bus and BLFC <span class="font-weight-bold">before April 20th, you'll get your
+              con badge and swag right when you board!</span> No waiting in long lines, just show up, settle in, and get your BLFC
+              started right.
+            </p>
+          </div>
+        </div>
+        <div class="row mt-5" hidden>
+          <div class="col">
+            <h3>A word about luggage</h3>
+            <p class="mt-3">
+              To make sure that space is maximized for fursuit cases, we ask that you try to use the smallest luggage possible.
+              We have reserved the last few rows of the bus for overflow space, and there is overhead storage in addition to the
+              undercarriage luggage space. We are asking for an optional $10 donation for any oversized bags, to help cover the cost
+              of the reserved luggage seats. We thank you in advance for packing as lightly as possible!
+            </p>
+          </div>
+        </div>
+
+        <div class="row mt-5 mb-5" hidden>
+          <div class="col">
+            <h2>General Info</h2>
+            <div class="d-flex rule">
+              <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+              <div class="align-self-center">Cost is $80</div>
+            </div>
+            <div class="d-flex rule">
+              <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+              <div class="align-self-center">This is a round trip, price includes pickup and return from Milbrae</div>
+            </div>
+            <div class="d-flex rule">
+              <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+              <div class="align-self-center">21+ Must bring valid ID that matches name on reservation</div>
+            </div>
+            <div class="d-flex rule">
+              <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+              <div class="align-self-center">61 seats available</div>
+            </div>
+            <div class="d-flex rule">
+              <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+              <div class="align-self-center">No glass containers on the bus</div>
+            </div>
+            <div class="d-flex rule">
+              <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+              <div class="align-self-center">Suits are okay and encouraged!</div>
+            </div>
+            <div class="d-flex rule">
+              <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+              <div class="align-self-center">There will be entertainment provided during the drive</div>
+            </div>
+            <div class="d-flex rule">
+              <img class="img-fluid mr-3 d-none d-lg-block" src="/blfc/img/confirmed.png" />
+              <div class="align-self-center">Tips will go towards providing water and snacks on the bus</div>
+            </div>
+            <p>
+
+            </p>
+          </div>
         </div>
       </div>
     </section>
-    <section id="reserve">
+    <section id="reserve" class="d-none">
       <div class="container-fluid">
         <div class="row">
           <div class="col-2 bg bg-1 d-none d-lg-block"></div>
@@ -338,7 +330,7 @@
           <div class="col-2 bg bg-2 d-none d-lg-block"></div>
         </div>
     </section>
-    <section id="social">
+    <section id="social" class="d-none">
       <div class="d-flex justify-content-center">
         <img class="d-none d-lg-block img-fluid" src="/blfc/img/paw-tail-topper.png" />
       </div>

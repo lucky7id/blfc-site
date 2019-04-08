@@ -1,12 +1,13 @@
 @import ./bootstrap
 
 $purple: #7e599d
+$body: #362f2d
 
 @font-face
-  font-family: 'Chewy'
+  font-family: 'Fredrica'
   font-style: normal
   font-weight: 400
-  src: url('../fonts/Chewy-Regular.ttf') format('truetype')
+  src: url('../fonts/FrederickatheGreat-Regular.ttf') format('truetype')
 
 @font-face
   font-family: 'Operator'
@@ -14,9 +15,13 @@ $purple: #7e599d
   font-weight: 400
   src: url('../fonts/OperatorMono-Medium.otf') format('opentype')
 
+html
+  font-size: 16px
+
 h1,h2,h3,h4,h5,h5,h6
-  font-family: 'Chewy'
-  color: $purple
+  font-family: 'Fredrica'
+  color: $body
+  font-weight: 600
 
 h1
   font-size: 4.5rem
@@ -51,33 +56,41 @@ h6
   padding: 1rem 0
 
 .social-link, a
-  color: $purple
+  color: $body
 
   &:hover
     text-decoration: none
-    color: darken($purple, 10%)
+    color: lighten($body, 10%)
 
   i
     font-size: 1.5rem
 
+  .material-icons
+    letter-spacing: -24px
+
+
 
 section
   min-height: 100vh
+  padding: 0 3rem
 
   .container-fluid
     padding-top: 1.5rem
     padding-bottom: 1.5rem
 
   &#hero
-    background: linear-gradient(#bbedfe, #fcfbdb)
-    min-height: unset
+    background-image: url('../img/splash.png')
+    min-height: 100vh
 
   &#info
-    background-color: #fcfbdb
+    background-color: #362f2d
     padding-top: 50px
+    color: white
+    position: relative
+    border-top: 2px solid $yellow
 
-    .bg
-      background-image: url('../img/info-bg-1.png')
+    h1, h2, h3, h4, h5, h6
+      color: $yellow
 
   &#reserve
     background-color: $purple
@@ -85,12 +98,6 @@ section
 
     h1, h2, h3, h4, h5, h6
       color: white
-
-    .bg-1
-      background-image: url('../img/paw-left-bg.png')
-
-    .bg-2
-      background-image: url('../img/paw-right-bg.png')
 
     a
       color: white !important
@@ -120,9 +127,9 @@ section
 
 .info-item
   i
-    color: $purple
-    font-size: 36px
-    margin-right: 8px
+    color: $yellow
+    font-size: 1.5rem
+    margin-right: 2rem
 
 #reserve-submit, #info-submit, #info-reg
   background: none
@@ -205,3 +212,13 @@ section
     .social-value.confirmed
       padding-top: .8rem
 
+
+.u-80vh
+  height: 80vh
+
+.u-100vh
+  height: 100vh
+
+.u-mw-10
+  max-width: 10%
+  height: auto
