@@ -83,7 +83,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          outputPath: './img/',
+          outputPath: '/img/',
           limit: 100000,
         },
       },
@@ -92,7 +92,7 @@ module.exports = {
         test: /\.(woff|woff2|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          outputPath: './fonts/',
+          outputPath: '/fonts/',
           limit: 100000,
         },
       },
@@ -100,9 +100,9 @@ module.exports = {
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader"
-        })
+          fallback: 'style-loader',
+          use: 'css-loader',
+        }),
       },
 
       {
