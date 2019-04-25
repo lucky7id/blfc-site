@@ -28,7 +28,8 @@ const square = new SquareConnect.CheckoutApi();
 oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
 
 const transport = new (winston.transports.DailyRotateFile)({
-  filename: 'blfc2019-%DATE%.log',
+  frequency: '1d',
+  filename: './logs/blfc2019-%DATE%.log',
   datePattern: 'YYYY-MM-DD-HH',
 });
 
