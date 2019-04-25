@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mysql = require('mysql');
 
-const sql = `
+const riders = `
 CREATE TABLE IF NOT EXISTS riders (
   id VARCHAR(255) PRIMARY KEY,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -18,7 +18,16 @@ CREATE TABLE IF NOT EXISTS riders (
   checkout_id VARCHAR(255) DEFAULT NULL,
   transaction_id VARCHAR(255) DEFAULT NULL,
   show_twitter BOOLEAN DEFAULT TRUE,
-  show_telegram BOOLEAN DEFAULT TRUE
+  show_telegram BOOLEAN DEFAULT TRUE,
+  tier VARCHAR(255) NOT NULL,
+  extra_bag BOOLEAN NOT NULL
+)ENGINE=InnoDB`;
+
+const interest = `
+CREATE TABLE IF NOT EXISTS interest (
+  email VARCHAR(255) PRIMARY KEY,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )ENGINE=InnoDB`;
 
 const connection = mysql.createConnection({
@@ -27,9 +36,19 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-connection.query(sql, (e, results, fields) => {
-  if (e) console.error(e);
+connection
+  .query(riders, (e) => {
+    if (!e) return;
 
-  connection.destroy();
-  process.exit(0);
-});
+    console.error(e);
+    throw e;
+  })
+  .query(interest, (e) => {
+    if (e) {
+      console.error(e);
+      throw e;
+    }
+
+    connection.destroy();
+    process.exit(0);
+  });
