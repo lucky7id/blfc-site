@@ -13,6 +13,8 @@ const Mailer = require('./mailer');
 const cors = require('cors');
 const isemail = require('isemail');
 const xss = require('xss');
+const winston = require('winston');
+require('winston-daily-rotate-file');
 
 // instances
 const app = express();
@@ -24,6 +26,17 @@ const { oauth2 } = defaultClient.authentications;
 const square = new SquareConnect.CheckoutApi();
 
 oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
+
+const transport = new (winston.transports.DailyRotateFile)({
+  filename: 'blfc2019-%DATE%.log',
+  datePattern: 'YYYY-MM-DD-HH',
+});
+
+const logger = winston.createLogger({
+  transports: [
+    transport,
+  ],
+});
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -40,7 +53,10 @@ const sanitize = (obj) => {
   return result;
 }
 
-const createOrder = (tip, id, email) => ({
+logger.info('[TEST]', { prop: 'value' });
+logger.info('[TEST OBJECT}', { rider: { name: 'yukine', body: { nested: true }, fin: 1234 } });
+logger.error('[TEST ERROR}', { message: 'this was an error' });
+const createOrder = (amt = 85, tip, id, email) => ({
   idempotency_key: id,
   ask_for_shipping_address: false,
   merchant_support_email: 'blfcbaybus@gmail.com',
@@ -53,7 +69,7 @@ const createOrder = (tip, id, email) => ({
         name: 'Seat Reservation',
         quantity: '1',
         base_price_money: {
-          amount: 80 * 100,
+          amount: amt * 100,
           currency: 'USD',
         },
       },
@@ -92,7 +108,7 @@ blfc.post('/riders', (req, res, next) => {
     .set('d', 8)
     .subtract(21, 'y');
 
-  console.log('\n[Rider Add]', req.body, '\n');
+  logger.info('[Rider Add]', { rider: req.body });
 
   if (!name) return next('Name is required.');
   if (!char_name) return next('Character name is required. This will be used as your display name.');
@@ -147,7 +163,7 @@ blfc.get('/confirm', (req, res, next) => {
 blfc.post('/interest', (req, res, next) => {
   if (!req.body.email || !isemail.validate(req.body.email)) return next('Must submit a valid email');
 
-  console.log('\n[Interest Add]', req.body, '\n');
+  logger.info('[Interest Add]', { rider: req.body });
 
   return db.addInterest(req.body.email)
     .then(() => {
@@ -160,12 +176,11 @@ blfc.post('/interest', (req, res, next) => {
 blfc.get('/checkout/:id', (req, res, next) => {
   let foundRider;
 
-  console.log(`\n[checkout][id]: ${req.params.id}\n`);
+  logger.info('[checkout]', { id: req.params.id });
 
   db.getById(req.params.id)
     .then(([rider]) => {
       if (!rider) throw new Error('No rider found');
-      console.log(rider);
       foundRider = rider;
 
       return square.createCheckout(
@@ -176,21 +191,20 @@ blfc.get('/checkout/:id', (req, res, next) => {
     .then((squareRes) => {
       if (!squareRes.checkout.id) return next('Could not get valid square id');
 
-      console.log(`\n[checkout][square res]: ${squareRes.checkout.checkout_page_url}`, foundRider, '\n');
+      logger.info('[square callback]', { url: squareRes.checkout.checkout_page_url, rider: foundRider });
 
       return db.updateUser({ checkout_id: squareRes.checkout.id, tip: foundRider.tip }, { id: req.params.id })
         .then(() => res.redirect(squareRes.checkout.checkout_page_url))
         .catch(next);
     })
     .catch((e) => {
-      console.error(`\n[checkout][Fail]: ${e.message || e}\n`)
-
+      logger.error('[checkout][Fail]', {message: e.message || e });
       res.send('Could not get a valid square link');
     });
 });
 
 const errorHandler = function errorHandler(err, req, res, next) {
-  console.error(err); //eslint-disable-line
+  logger.error('[Error Handler]', {message: err.message || err}); //eslint-disable-line
 
   if (err.message === 'bus-full') {
     return res.send({ status: 'bus-full' });

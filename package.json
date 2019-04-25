@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/lucky7id/blfc-site#readme",
   "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
     "@types/body-parser": "^1.16.8",
     "@types/bootstrap": "^3.3.36",
     "@types/cors": "^2.8.3",
@@ -47,6 +48,8 @@
     "popper.js": "^1.12.9",
     "square-connect": "^2.5.3",
     "uuid": "^3.1.0",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.8.0",
     "xss": "^0.3.7"
   },
   "devDependencies": {
