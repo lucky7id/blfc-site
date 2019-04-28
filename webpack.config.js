@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const eslintFormater = require('eslint-friendly-formatter');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const plugins = [
   new CleanWebpackPlugin(['dist']),
@@ -32,7 +32,7 @@ const plugins = [
     { from: './img', to: 'img' },
   ]),
 
-  new ExtractTextPlugin('styles.css'),
+  new MiniCssExtractPlugin({filename: 'styles.css'}),
 ];
 
 module.exports = {
@@ -43,44 +43,46 @@ module.exports = {
   },
 
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/'),
     filename: '[name].[chunkhash].js',
     publicPath: '/blfc',
   },
 
   devServer: {
-    contentBase: './dist',
+    contentBase: path.join(__dirname, 'dist'),
     publicPath: '/blfc',
     openPage: 'blfc',
+    writeToDisk: true
   },
 
   module: {
     rules: [
-      {
-        test: /\.(js)$/,
-        exclude: [/node_modules/, path.resolve(__dirname, 'dist')],
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: ['env'],
-            },
-          },
-          {
-            loader: 'eslint-loader',
-            options: {
-              enforce: 'pre',
-              formatter: eslintFormater,
-            },
-          },
-        ],
-      },
+      // {
+      //   test: /\.(js)$/,
+      //   exclude: [/node_modules/, path.resolve(__dirname, 'dist')],
+      //   use: [
+      //     {
+      //       loader: 'babel-loader',
+      //       options: {
+      //         presets: ['env'],
+      //       },
+      //     },
+      //     {
+      //       loader: 'eslint-loader',
+      //       options: {
+      //         enforce: 'pre',
+      //         formatter: eslintFormater,
+      //       },
+      //     },
+      //   ],
+      // },
 
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          outputPath: '/img/',
+          publicPath: '/blfc/img',
+          outputPath: path.resolve(__dirname, 'dist', 'img/'),
           limit: 100000,
         },
       },
@@ -89,17 +91,18 @@ module.exports = {
         test: /\.(woff|woff2|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          outputPath: '/fonts/',
+          publicPath: '/blfc/fonts',
+          outputPath: path.resolve(__dirname, 'dist', 'fonts/'),
           limit: 100000,
         },
       },
 
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader',
-        }),
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          'css-loader'
+        ]
       },
 
       {
