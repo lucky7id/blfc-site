@@ -109,66 +109,6 @@ const doPost = (e) => {
     });
 };
 
-const handleInfoSubmit = (e) => {
-  const $form = $('#info-form');
-  const $form2 = $('#reserve-form');
-  const $errors = $('#form-errors');
-  const $feedback = $('#form-feedback');
-  const $email = $('#infoEmail');
-
-  e.preventDefault();
-  e.stopPropagation();
-
-  if (!$email.val()) {
-    $errors.text('Please provide a valid email');
-    $errors.show();
-
-    return;
-  }
-
-  $.post('http://api.yukine.me/blfc/interest', { email: $email.val() })
-    .then(() => {
-      $form.hide();
-      $errors.hide();
-      $feedback.hide();
-      $('#info-copy').hide();
-      $('#reserve-copy').show();
-      $feedback.text('All Set, look for updates in your inbox');
-      $('#email').val($email.val());
-      $form2.show();
-    })
-    .catch((err) => {
-      console.error(err); //eslint-disable-line
-
-      $errors.text((err.responseJSON && err.responseJSON.error) || err.responseText);
-      $errors.show();
-    });
-};
-
-const moveToReg = (e) => {
-  const $feedback = $('#form-feedback');
-  const $email = $('#infoEmail');
-  const $form = $('#info-form');
-  const $form2 = $('#reserve-form');
-
-  e.preventDefault();
-  e.stopPropagation();
-
-  if (!$email.val()) {
-    $feedback.text('Please provide a valid email');
-    $feedback.show();
-
-    return;
-  }
-
-  $('#email').val($email.val());
-  $form.hide();
-  $('#info-copy').hide();
-  $('#reserve-copy').show();
-  $form2.show();
-};
-
-
 const getRiderBlock = rider => `
 <div class="social-container mb-3">
   <div class="social-content d-flex">
@@ -220,17 +160,12 @@ const handleStart = () => {
 
 const init = () => {
   const $submit = $('#reserve-submit');
-  const $infoSubmit = $('#info-submit');
-  const $infoReg = $('#info-reg');
   const $termsSubmit = $('#terms-modal button');
   const $start = $('#start');
-  const confirmedMessage = '<span>You are all set! Thanks for riding with us! Please fill out the <a href="https://docs.google.com/forms/d/e/1FAIpQLSeL6P964tdx6-VHJ1Jq8jpHQQHHTCAiiQz0eQx_bVb0aeGt2g/viewform?usp=sf_link"> luggage form </a> to help us plan!</span>';
 
   setTimeout(() => {
     $('#form-errors').hide();
     $('#form-feedback').hide();
-    $('#reserve-form').hide();
-    $('#reserve-copy').hide();
 
     if (window.location.search.includes('confirmed=true&cid=')) {
       $('#reserve-form').hide();
@@ -238,20 +173,9 @@ const init = () => {
       window.location.href = '#';
       window.location.href = '#reserve';
     }
-
-    if (window.location.search.includes('reserveCb=true')) {
-      $('#reserve-form').show();
-      $('#reserve-copy').show();
-      $('#info-form').hide();
-      $('#info-copy').hide();
-      window.location.href = '#';
-      window.location.href = '#reserve';
-    }
   });
 
   $submit.on('click', handleSubmit);
-  $infoSubmit.on('click', handleInfoSubmit);
-  $infoReg.on('click', moveToReg);
   $termsSubmit.on('click', doPost);
   $start.on('click', handleStart);
 
