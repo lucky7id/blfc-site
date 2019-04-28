@@ -82,7 +82,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           publicPath: '/blfc/img',
-          outputPath: path.resolve('dist', 'img/'),
+          outputPath: 'img/',
           limit: 100000,
         },
       },
@@ -92,7 +92,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           publicPath: '/blfc/fonts',
-          outputPath: path.resolve('dist', 'fonts/'),
+          outputPath: 'fonts/',
           limit: 100000,
         },
       },
