@@ -39,7 +39,7 @@ const transport = new (winston.transports.DailyRotateFile)({
 
 const logger = winston.createLogger({
   transports: [
-    new window.transports.Console(),
+    new winston.transports.Console(),
     transport,
   ],
 });
@@ -125,7 +125,7 @@ blfc.post('/riders', (req, res, next) => {
     .set('d', 8)
     .subtract(21, 'y');
 
-  logger.info('[Rider Add]', { rider: req.body });
+  logger.info('[Rider Add]', { rider: { name, char_name, email, verify_email, birth_date, twitter, telegram, tip, tier, extra_bag } });
 
   if (!name) return next('Name is required.');
   if (!char_name) return next('Character name is required. This will be used as your display name.');
