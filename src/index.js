@@ -103,7 +103,7 @@ const doPost = (e) => {
       }
 
       if (res.url) {
-        $feedback.html(`Awesome! Your info submitted successfully, check your email for a link to finish your registration, <a href="${res.url}">or click here to finish now.</a>`);
+        $feedback.html(`Awesome! Your info submitted successfully, check your email (<strong>and your spam folder</strong>) for a link to finish your registration,<br /> <a href="${res.url}">or click here to finish now.</a>`);
         $feedback.show();
       }
     })
