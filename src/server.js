@@ -13,7 +13,10 @@ const cors = require('cors');
 const isemail = require('isemail');
 const xss = require('xss');
 const winston = require('winston');
+const sgMail = require('@sendgrid/mail');
 require('winston-daily-rotate-file');
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // instances
 const app = express();
@@ -27,11 +30,6 @@ const EXTRA_BAG_COST = 5;
 let INTEREST_COUNT = 0;
 
 oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
-
-const baseMsg = {
-  from: 'blfcbaybus@gmail.com',
-  template_id: '<strong>and easy to do anywhere, even with Node.js</strong>',
-};
 
 const transport = new (winston.transports.DailyRotateFile)({
   frequency: '1d',
