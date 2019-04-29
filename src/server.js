@@ -39,6 +39,7 @@ const transport = new (winston.transports.DailyRotateFile)({
 
 const logger = winston.createLogger({
   transports: [
+    new window.transports.Console(),
     transport,
   ],
 });
@@ -111,11 +112,11 @@ blfc.post('/riders', (req, res, next) => {
   const atName = /^@/;
   const badChars = /[^\w@\s\+\.\?\\\-\(\)\!]/g;
 
-  req.body.extra_bag = (req.body.extra_bag === 'true') ? true : false;
-
-  const {
+  let {
     name, char_name, email, verify_email, birth_date, twitter, telegram, tip, tier, extra_bag
   } = sanitize(req.body);
+
+  extra_bag = Boolean(extra_bag); // only set if true, cast to bool
 
   const tipAmount = tip ? parseInt(tip, 10) : 0;
   const minAge = moment()
