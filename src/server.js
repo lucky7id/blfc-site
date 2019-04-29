@@ -65,7 +65,7 @@ const createOrder = (amt = 85, extra_bag = false, tip, id, email) => {
     ask_for_shipping_address: false,
     merchant_support_email: 'blfcbaybus@gmail.com',
     pre_populate_buyer_email: email,
-    redirect_url: 'http://api.yukine.me/blfc/confirm',
+    redirect_url: 'https://api.yukine.me/blfc/confirm',
     order: {
       reference_id: id,
       line_items: [
@@ -174,11 +174,11 @@ blfc.post('/riders', (req, res, next) => {
         template_id: 'd-4552e9310c3d4766b5b19e88a4ee9804', 
         dynamic_template_data: {
           user_name: char_name,
-          square_link: `http://api.yukine.me/blfc/checkout/${id}`
+          square_link: `https://api.yukine.me/blfc/checkout/${id}`
         }
       });
 
-      res.send({ url: `http://api.yukine.me/blfc/checkout/${id}` });
+      res.send({ url: `https://api.yukine.me/blfc/checkout/${id}` });
     })
     .catch(next);
 });
@@ -198,7 +198,7 @@ blfc.get('/confirm', (req, res, next) => {
           user_name: user[0].char_name,
         }
       });
-      res.redirect(`http://yukine.me/blfc/?confirmed=true&cid=${req.query.referenceId}`);
+      res.redirect(`https://yukine.me/blfc/?confirmed=true&cid=${req.query.referenceId}`);
     })
     .catch(next);
 });
