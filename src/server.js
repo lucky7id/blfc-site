@@ -111,7 +111,7 @@ blfc.post('/riders', (req, res, next) => {
   const atName = /^@/;
   const badChars = /[^\w@\s\+\.\?\\\-\(\)\!]/g;
   const {
-    name, char_name, email, verify_email, birth_date, twitter, telegram, tip, tier, extra_bag = false
+    name, char_name, email, verify_email, birth_date, twitter, telegram, tip, tier, extra_bag
   } = sanitize(req.body);
 
   const tipAmount = tip ? parseInt(tip, 10) : 0;
@@ -136,7 +136,7 @@ blfc.post('/riders', (req, res, next) => {
   return db.getByEmail(email)
     .then((rider) => {
       if (rider && rider.length) throw new Error('email-found');
-
+      console.log({extra_bag})
       return db.addRider({
         id, name, char_name, email, birth_date: moment(birth_date).format('YYYY-MM-DD'), twitter, telegram, tip: tipAmount, tier, extra_bag
       });
