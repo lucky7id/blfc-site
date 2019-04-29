@@ -59,42 +59,52 @@ const sanitize = (obj) => {
   return result;
 }
 
-const createOrder = (amt = 85, extra_bag = false, tip, id, email) => ({
-  idempotency_key: id,
-  ask_for_shipping_address: false,
-  merchant_support_email: 'blfcbaybus@gmail.com',
-  pre_populate_buyer_email: email,
-  redirect_url: 'http://api.yukine.me/blfc/confirm',
-  order: {
-    reference_id: id,
-    line_items: [
-      {
-        name: 'Seat Reservation',
-        quantity: '1',
-        base_price_money: {
-          amount: amt * 100,
-          currency: 'USD',
+const createOrder = (amt = 85, extra_bag = false, tip, id, email) => { 
+  const order = {
+    idempotency_key: id,
+    ask_for_shipping_address: false,
+    merchant_support_email: 'blfcbaybus@gmail.com',
+    pre_populate_buyer_email: email,
+    redirect_url: 'http://api.yukine.me/blfc/confirm',
+    order: {
+      reference_id: id,
+      line_items: [
+        {
+          name: 'Seat Reservation',
+          quantity: '1',
+          base_price_money: {
+            amount: amt * 100,
+            currency: 'USD',
+          },
         },
+      ],
+    },
+  };
+
+  if (extra_bag) {
+    order.order.line_items.push({
+      name: 'Extra Bag',
+      quantity: '1',
+      base_price_money: {
+        amount: EXTRA_BAG_COST * 100,
+        currency: 'USD',
       },
-      {
-        name: 'Extra Bag',
-        quantity: extra_bag ? '1' : '0',
-        base_price_money: {
-          amount: EXTRA_BAG_COST * 100,
-          currency: 'USD',
-        },
+    })
+  }
+
+  if (tip) {
+    order.order.line_items.push({
+      name: 'Tip',
+      quantity: '1',
+      base_price_money: {
+        amount: tip * 100,
+        currency: 'USD',
       },
-      {
-        name: 'Tip',
-        quantity: '1',
-        base_price_money: {
-          amount: tip * 100,
-          currency: 'USD',
-        },
-      },
-    ],
-  },
-});
+    })
+  }
+  
+  return order;
+}
 
 blfc.get('/riders', (req, res, next) => {
   db.getRiders()
