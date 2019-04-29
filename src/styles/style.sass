@@ -119,11 +119,26 @@ section
 .avatar-container
   max-height: 100%
 
+#bag-select
+  cursor: pointer
+  i.selected
+    display: none
+  
+  &.checked
+    i.selected
+      display: block
+    i.unselected
+      display: none
 
 .form-control
   border-top: none
   border-left: none
   border-right: none
+  outline: none
+
+  &:focus
+    border-color: $yellow
+    box-shadow: none
 
 .info-item
   i
@@ -178,6 +193,27 @@ section
   img
     border: 2px solid white
     border-radius: .25rem
+
+.card.tier-option
+  border-width: 2px
+  border-color: white
+  transition: all .3s ease
+
+  i
+    opacity: 0
+    transition: all .3s ease
+
+  &:hover
+    background-color: $yellow !important
+
+  &.active
+    border-color: $yellow
+    
+    i
+      opacity: 1
+    
+    &:hover
+      background-color: transparent !important
 
 .social-container
   border: 2px solid $purple

@@ -18,7 +18,7 @@ const handleSubmit = (e) => {
   $errors.hide();
   $feedback.hide();
 
-  $form.serializeArray().forEach((elm) => { data[elm.name] = elm.value; });
+  $form.serializeArray().forEach((elm) => { data[elm.name] = elm.value || elm.checked; });
 
   if (!data.name) {
     $errors.text('Missing "Name" - must match name on ID');
@@ -69,15 +69,24 @@ const doPost = (e) => {
   const $form = $('#reserve-form');
   const $errors = $('#form-errors');
   const $feedback = $('#form-feedback');
+  const ga = window.ga || function () { }
   const data = {};
 
   e.stopPropagation();
   e.stopPropagation();
 
-  $form.serializeArray().forEach((elm) => { data[elm.name] = elm.value; });
+  $form.serializeArray().forEach((elm) => { 
+    let val = elm.value;
+    
+    if (val === 'on') val = true;
+    
+    data[elm.name] = val;
+  });
 
   $.post('http://api.yukine.me/blfc/riders', Object.assign({}, data, { tos_accept: true }), 'json')
     .then((res) => {
+      ga('send', 'event', 'click', 'submit');
+      
       if (res.status === 'bus-full') {
         $feedback.text('Looks like the bus is full, but we have saved your info and will reach out should more spots open up');
         $feedback.show();
@@ -99,6 +108,7 @@ const doPost = (e) => {
       }
     })
     .catch((err) => {
+      ga('send', 'event', 'error', 'submit');
       console.error(err); //eslint-disable-line
 
       $errors.text((err.responseJSON && err.responseJSON.error) || err.responseText);
@@ -149,19 +159,50 @@ const renderTable = (data) => {
   });
 };
 
-const handleStart = () => {
+const handleStart = (scroll = true) => {
   const $hidden = $('section.d-none');
+  const ga = window.ga || function () {}
 
   $hidden.removeClass('d-none');
   $hidden.hide(0);
   $hidden.fadeIn(700);
-  $('html, body').animate({ scrollTop: $('#info').offset().top }, 500);
+  const btn = `<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large"
+                data-text="I&#39;m joining the Big Lit Fur Coach party, and you should too!" data-url="https://yukine.me/blfc"
+                data-hashtags="BigLitFurCoach" data-show-count="false">Share with your friends</a>`;
+
+  $('#twitter-share').append(btn);
+  $('body').append('<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>');
+  if (scroll) $('html, body').animate({ scrollTop: $('#info').offset().top }, 500);
+  ga('send', 'event', 'click', 'start');
 };
+
+const selectTier = ({currentTarget}) => {
+  const $elm = $(currentTarget);
+  const $input = $('#tier');
+  const val = currentTarget.dataset.value;
+  
+  if ($elm.hasClass('active')) return;
+  
+  $input.val(val);
+  $('.tier-option.active').removeClass('active');
+  $elm.addClass('active');
+}
+
+const toggleExtraBag = ({currentTarget}) => {
+  const $elm = $(currentTarget);
+  const $input = $('#extra_bag');
+
+  $input.prop('checked', !$input.prop('checked'));
+  $elm.toggleClass('checked', $input.prop('checked'))
+}
 
 const init = () => {
   const $submit = $('#reserve-submit');
   const $termsSubmit = $('#terms-modal button');
   const $start = $('#start');
+  const $tiers = $('.tier-option');
+  const $extraBag = $('#bag-select');
+  const confirmedMessage = `Thanks for your registration, you are all set! <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="I&#39;m joining the Big Lit Fur Coach party, and you should too!" data-url="https://yukine.me/blfc" data-hashtags="BigLitFurCoach" data-show-count="false">Share with your friends</a>`
 
   setTimeout(() => {
     $('#form-errors').hide();
@@ -170,11 +211,16 @@ const init = () => {
     if (window.location.search.includes('confirmed=true&cid=')) {
       $('#reserve-form').hide();
       $('#form-feedback').html(confirmedMessage).show();
+      handleStart(false);
+      
       window.location.href = '#';
       window.location.href = '#reserve';
     }
   });
 
+  $('#extra_bag').prop('checked', false);
+  $extraBag.on('click', toggleExtraBag);
+  $tiers.on('click', selectTier);
   $submit.on('click', handleSubmit);
   $termsSubmit.on('click', doPost);
   $start.on('click', handleStart);

@@ -7,23 +7,23 @@
     <title>Biggest Little Furry Coach</title>
     <meta name="description" content="Join your fuzzy friends and get to BLFC in style, and keep the party rolling on the way back">
     <meta name="author" content="Yukine">
-    <meta name="image" content="http://yukine.me/blfc/img/chibi.png">
+    <meta name="image" content="http://yukine.me/blfc/img/email_hero.png">
     <!-- COMMON TAGS -->
     <!-- Schema.org for Google -->
     <meta itemprop="name" content="Big Lit Fur Coach">
     <meta itemprop="description" content="Join your fuzzy friends and get to BLFC in style, and keep the party rolling on the way back">
-    <meta itemprop="image" content="http://yukine.me/blfc/img/chibi.png">
+    <meta itemprop="image" content="http://yukine.me/blfc/img/email_hero.png">
     <!-- Twitter -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Biggest Little Furry Coach">
+    <meta name="twitter:title" content="Big Lit Fur Coach">
     <meta name="twitter:description" content="Join your fuzzy friends and get to BLFC in style, and keep the party rolling on the way back">
     <meta name="twitter:site" content="@yuki_husker">
     <meta name="twitter:creator" content="@yuki_husker">
-    <meta name="twitter:image:src" content="http://yukine.me/blfc/img/chibi.png">
+    <meta name="twitter:image:src" content="http://yukine.me/blfc/img/email_hero.png">
     <!-- Open Graph general (Facebook, Pinterest & Google+) -->
-    <meta name="og:title" content="Big Lit Furry Coach">
+    <meta name="og:title" content="Big Lit Fur Coach">
     <meta name="og:description" content="Join your fuzzy friends and get to BLFC in style, and keep the party rolling on the way back">
-    <meta name="og:image" content="http://yukine.me/blfc/img/chibi.png">
+    <meta name="og:image" content="http://yukine.me/blfc/img/email_hero.pngg">
     <meta name="og:url" content="http://yukine.me/blfc/">
     <meta name="og:site_name" content="Big Lit Fur Coach">
     <meta name="og:type" content="website">
@@ -38,7 +38,7 @@
         <div class="row">
           <div class="col-lg-1 col-8">
             <div class="social-link-container d-flex justify-content-between">
-              <a class="social-link" href="https://t.me/blfcbaybus" target="_blank">
+              <a class="social-link" href="https://t.me/bbbus" target="_blank">
                 <i class="socicon-telegram"></i>
               </a>
               <a class="social-link" href="https://twitter.com/yuki_husker" target="_blank">
@@ -55,7 +55,7 @@
             <h1>A great adventure awaits</h1>
             <h2>Will you join the party?</h2>
             <div class="mt-5">
-              <button class="btn btn-warning btn-lg" id="start">Take Me To BLFC</button>
+              <button class="btn btn-warning btn-lg" id="start" type="button">Take Me To BLFC</button>
             </div>
           </div>
         </div>
@@ -185,14 +185,66 @@
         <div class="row">
           <div class="col">
             <h2>Get Your Seat!</h2>
-            <p class="mb-5 mt-3" id="reserve-copy">
+            <p class="mt-3" id="reserve-copy">
               Once you are ready, fill out the form below to sign up for the Big Lit Fur Coach.
-              When you finish, you will find a link in your email to pay and complete your registration.
+              When you finish, you will find a link in your email to pay and complete your registration.<br /><br />
+              Can't make it? Help us spread the word by sending a tweet
             </p>
+            <div id="twitter-share" class="mb-5"></div>
             <div class="alert alert-danger" id="form-errors"></div>
             <div class="alert alert-primary" id="form-feedback"></div>
             <form id="reserve-form">
               <div class="row">
+                <div class="col">
+                  <h5>Choose a tier</h5>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col mb-5">
+                  <div class="card bg-transparent tier-option active" data-value="pbr">
+                    <div class="card-body d-flex justify-content-between">
+                      <div>
+                        <h6>Pawbs Blue Ribbon ($85)</h6>
+                        <div>Standard admission, includes 1 bag and a PBR</div>
+                      </div>
+                      <div><i class="material-icons text-warning">check_circle</i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col offset-md-1 mb-5">
+                  <div class="card bg-transparent tier-option" data-value="ipa">
+                    <div class="card-body d-flex justify-content-between">
+                      <div>
+                        <h6>India Paw Ale ($90)</h6>
+                        <div>Standard admission, includes 1 bag and an IPA style beer</div>
+                      </div>
+                      <div><i class="material-icons text-warning">check_circle</i></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h5>Extra Bag?</h5>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <div class="col">
+                  <div class="card bg-transparent">
+                    <div class="card-body">
+                      <div class="mb-3">Due to a limitation on space, each rider is given space for 1 bag. If you need to bring an additional bag, check the box below</div>
+                      <div class="d-flex" id="bag-select">
+                        <i class="material-icons text-white mr-3 unselected">check_box_outline_blank</i>
+                        <i class="material-icons text-warning mr-3 selected">check_box</i>
+                        <div>I want to add a second bag for $5.00</div>
+                        <input type="checkbox" hidden name="extra_bag" id="extra_bag"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" name="tier" id="tier" value="pbr"/>
+              <div class="row mt-3">
                 <div class="col-12 col-md">
                   <div class="form-group">
                     <label for="name">Legal Name</label>
@@ -321,14 +373,18 @@
         </div>
       </div>
     </div>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112873993-1"></script>
+    <!-- Google Analytics -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
+      (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-      gtag('config', 'UA-112873993-1');
+      ga('create', 'UA-112873993-1', 'auto');
+      ga('send', 'pageview');
     </script>
+    <!-- End Google Analytics -->
   </body>
 </html>

@@ -24,8 +24,15 @@ const mailer = new Mailer();
 const defaultClient = SquareConnect.ApiClient.instance;
 const { oauth2 } = defaultClient.authentications;
 const square = new SquareConnect.CheckoutApi();
+const TIERS = { pbr: 85, ipa: 90 };
+const EXTRA_BAG_COST = 5;
 
 oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
+
+const baseMsg = {
+  from: 'blfcbaybus@gmail.com',
+  template_id: '<strong>and easy to do anywhere, even with Node.js</strong>',
+};
 
 const transport = new (winston.transports.DailyRotateFile)({
   frequency: '1d',
@@ -99,7 +106,7 @@ blfc.post('/riders', (req, res, next) => {
   const atName = /^@/;
   const badChars = /[^\w@\s\+\.\?\\\-\(\)\!]/g;
   const {
-    name, char_name, email, verify_email, birth_date, twitter, telegram, tip,
+    name, char_name, email, verify_email, birth_date, twitter, telegram, tip, tier, extra_bag = false
   } = sanitize(req.body);
 
   const tipAmount = tip ? parseInt(tip, 10) : 0;
@@ -119,13 +126,14 @@ blfc.post('/riders', (req, res, next) => {
   if (twitter.toString().trim().length && !atName.test(twitter)) return next('Twitter and Telegram names must start with an @');
   if (telegram.toString().trim().length && !atName.test(telegram)) return next('Twitter and Telegram names must start with an @');
   if (badChars.test(name) || badChars.test(char_name)) return next('Trying to be a sneaky skunk? Names are only allowed to use alphanumeric values and characters "+-!?.\\()"');
+  if (!TIERS[tier]) return next('Invalid tier selected');
 
   return db.getByEmail(email)
     .then((rider) => {
       if (rider && rider.length) throw new Error('email-found');
 
       return db.addRider({
-        id, name, char_name, email, birth_date: moment(birth_date).format('YYYY-MM-DD'), twitter, telegram, tip,
+        id, name, char_name, email, birth_date: moment(birth_date).format('YYYY-MM-DD'), twitter, telegram, tip: tipAmount, tier, extra_bag
       });
     })
     .then(() => {
@@ -135,15 +143,18 @@ blfc.post('/riders', (req, res, next) => {
     })
     .then((rows) => {
       if (!rows || rows.length >= 50) throw new Error('bus-full');
+      
+      sgMail.send({
+        to: email,
+        from: '',
+        template_id: 'd-4552e9310c3d4766b5b19e88a4ee9804', 
+        dynamic_template_data: {
+          user_name: char_name,
+          square_link: `http://api.yukine.me/blfc/checkout/${id}`
+        }
+      });
 
-      mailer.sendWelcome(email, name, id);
       res.send({ url: `http://api.yukine.me/blfc/checkout/${id}` });
-    })
-    .then(() => db.getInterest(email))
-    .then((interest) => {
-      if (interest && interest.length) return db.removeInterest(email);
-
-      return undefined;
     })
     .catch(next);
 });
@@ -155,21 +166,15 @@ blfc.get('/confirm', (req, res, next) => {
   db.updateUser({ confirmed: true }, { id: req.query.referenceId })
     .then(() => db.getById(req.query.referenceId))
     .then((user) => {
-      mailer.sendConfirm(user[0].email, user[0].name, req.query.referenceId);
+      sgMail.send({
+        to: user[0].email,
+        from: '',
+        template_id: 'd-4552e9310c3d4766b5b19e88a4ee9804',
+        dynamic_template_data: {
+          user_name: user[0].char_name,
+        }
+      });
       res.redirect(`http://yukine.me/blfc/?confirmed=true&cid=${req.query.referenceId}`);
-    })
-    .catch(next);
-});
-
-blfc.post('/interest', (req, res, next) => {
-  if (!req.body.email || !isemail.validate(req.body.email)) return next('Must submit a valid email');
-
-  logger.info('[Interest Add]', { rider: req.body });
-
-  return db.addInterest(req.body.email)
-    .then(() => {
-      mailer.sendInterest(req.body.email, req.body.email);
-      res.send({ success: true });
     })
     .catch(next);
 });
@@ -183,10 +188,11 @@ blfc.get('/checkout/:id', (req, res, next) => {
     .then(([rider]) => {
       if (!rider) throw new Error('No rider found');
       foundRider = rider;
+      const amt = (TIERS[rider.tier] || TIERS.pbr) + (rider.extra_bag ? EXTRA_BAG_COST : 0);
 
       return square.createCheckout(
         process.env.SQUARE_LOCATION_ID,
-        createOrder(rider.tip, rider.id, rider.email)
+        createOrder(amt, rider.tip, rider.id, rider.email)
       );
     })
     .then((squareRes) => {
@@ -194,7 +200,7 @@ blfc.get('/checkout/:id', (req, res, next) => {
 
       logger.info('[square callback]', { url: squareRes.checkout.checkout_page_url, rider: foundRider });
 
-      return db.updateUser({ checkout_id: squareRes.checkout.id, tip: foundRider.tip }, { id: req.params.id })
+      return db.updateUser({ checkout_id: squareRes.checkout.id }, { id: req.params.id })
         .then(() => res.redirect(squareRes.checkout.checkout_page_url))
         .catch(next);
     })
