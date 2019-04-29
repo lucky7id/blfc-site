@@ -9,7 +9,6 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const moment = require('moment');
 const Db = require('./db');
-const Mailer = require('./mailer');
 const cors = require('cors');
 const isemail = require('isemail');
 const xss = require('xss');
