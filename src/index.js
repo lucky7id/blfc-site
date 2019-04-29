@@ -83,7 +83,7 @@ const doPost = (e) => {
     data[elm.name] = val;
   });
 
-  $.post('http://api.yukine.me/blfc/riders', Object.assign({}, data, { tos_accept: true }), 'json')
+  $.post('https://api.yukine.me/blfc/riders', Object.assign({}, data, { tos_accept: true }), 'json')
     .then((res) => {
       ga('send', 'event', 'click', 'submit');
       
@@ -163,6 +163,8 @@ const handleStart = (scroll = true) => {
   const $hidden = $('section.d-none');
   const ga = window.ga || function () {}
 
+  $.get('https://api.yukine.me/blfc/ping');
+
   $hidden.removeClass('d-none');
   $hidden.hide(0);
   $hidden.fadeIn(700);
@@ -225,7 +227,7 @@ const init = () => {
   $termsSubmit.on('click', doPost);
   $start.on('click', handleStart);
 
-  $.getJSON('http://api.yukine.me/blfc/riders')
+  $.getJSON('https://api.yukine.me/blfc/riders')
     .done(renderTable)
     .fail(console.error); //eslint-disable-line
 };

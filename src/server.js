@@ -26,6 +26,7 @@ const { oauth2 } = defaultClient.authentications;
 const square = new SquareConnect.CheckoutApi();
 const TIERS = { pbr: 85, ipa: 90 };
 const EXTRA_BAG_COST = 5;
+let INTEREST_COUNT = 0;
 
 oauth2.accessToken = process.env.SQUARE_ACCESS_TOKEN;
 
@@ -101,6 +102,14 @@ blfc.get('/riders', (req, res, next) => {
     .catch(next);
 });
 
+blfc.get('/ping', (req, res) => {
+  INTEREST_COUNT++;
+  console.log(`\n[Interest] Count this session: ${INTEREST_COUNT}`);
+  logger.info('[Interest]', { ip: req.ip });
+
+  res.send();
+});
+
 blfc.post('/riders', (req, res, next) => {
   const id = uuid();
   const atName = /^@/;
@@ -146,7 +155,7 @@ blfc.post('/riders', (req, res, next) => {
       
       sgMail.send({
         to: email,
-        from: '',
+        from: 'blfcbaybus@gmail.com',
         template_id: 'd-4552e9310c3d4766b5b19e88a4ee9804', 
         dynamic_template_data: {
           user_name: char_name,
@@ -168,8 +177,8 @@ blfc.get('/confirm', (req, res, next) => {
     .then((user) => {
       sgMail.send({
         to: user[0].email,
-        from: '',
-        template_id: 'd-4552e9310c3d4766b5b19e88a4ee9804',
+        from: 'blfcbaybus@gmail.com',
+        template_id: 'd-d6b5de2a6fee4b24a1544f02a2dd0afe',
         dynamic_template_data: {
           user_name: user[0].char_name,
         }
