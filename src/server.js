@@ -59,10 +59,7 @@ const sanitize = (obj) => {
   return result;
 }
 
-logger.info('[TEST]', { prop: 'value' });
-logger.info('[TEST OBJECT}', { rider: { name: 'yukine', body: { nested: true }, fin: 1234 } });
-logger.error('[TEST ERROR}', { message: 'this was an error' });
-const createOrder = (amt = 85, tip, id, email) => ({
+const createOrder = (amt = 85, extra_bag = false, tip, id, email) => ({
   idempotency_key: id,
   ask_for_shipping_address: false,
   merchant_support_email: 'blfcbaybus@gmail.com',
@@ -76,6 +73,14 @@ const createOrder = (amt = 85, tip, id, email) => ({
         quantity: '1',
         base_price_money: {
           amount: amt * 100,
+          currency: 'USD',
+        },
+      },
+      {
+        name: 'Extra Bag',
+        quantity: extra_bag ? '1' : '0',
+        base_price_money: {
+          amount: EXTRA_BAG_COST * 100,
           currency: 'USD',
         },
       },
@@ -201,7 +206,7 @@ blfc.get('/checkout/:id', (req, res, next) => {
 
       return square.createCheckout(
         process.env.SQUARE_LOCATION_ID,
-        createOrder(amt, rider.tip, rider.id, rider.email)
+        createOrder(amt, rider.extra_bag, rider.tip, rider.id, rider.email)
       );
     })
     .then((squareRes) => {
