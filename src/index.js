@@ -73,7 +73,6 @@ const doPost = (e) => {
   const data = {};
 
   e.stopPropagation();
-  e.stopPropagation();
 
   $form.serializeArray().forEach((elm) => { 
     let val = elm.value;
@@ -106,6 +105,8 @@ const doPost = (e) => {
         $feedback.html(`Awesome! Your info submitted successfully, check your email (<strong>and your spam folder</strong>) for a link to finish your registration,<br /> <a href="${res.url}">or click here to finish now.</a>`);
         $feedback.show();
       }
+
+      $('html, body').animate({ scrollTop: $feedback.offset().top }, 500);
     })
     .catch((err) => {
       ga('send', 'event', 'error', 'submit');
@@ -113,6 +114,7 @@ const doPost = (e) => {
 
       $errors.text((err.responseJSON && err.responseJSON.error) || err.responseText);
       $errors.show();
+      $('html, body').animate({ scrollTop: $errors.offset().top }, 500);
     }) //eslint-disable-line
     .always(() => {
       $('#terms-modal').modal('hide');
