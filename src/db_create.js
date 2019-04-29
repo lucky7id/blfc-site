@@ -23,13 +23,6 @@ CREATE TABLE IF NOT EXISTS riders (
   extra_bag BOOLEAN NOT NULL
 )ENGINE=InnoDB`;
 
-const interest = `
-CREATE TABLE IF NOT EXISTS interest (
-  email VARCHAR(255) PRIMARY KEY,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)ENGINE=InnoDB`;
-
 const connection = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
@@ -38,12 +31,6 @@ const connection = mysql.createConnection({
 
 connection
   .query(riders, (e) => {
-    if (!e) return;
-
-    console.error(e);
-    throw e;
-  })
-  .query(interest, (e) => {
     if (e) {
       console.error(e);
       throw e;
@@ -51,4 +38,5 @@ connection
 
     connection.destroy();
     process.exit(0);
-  });
+});
+  

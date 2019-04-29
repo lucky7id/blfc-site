@@ -20,7 +20,6 @@ require('winston-daily-rotate-file');
 const app = express();
 const blfc = express.Router();
 const db = new Db();
-const mailer = new Mailer();
 const defaultClient = SquareConnect.ApiClient.instance;
 const { oauth2 } = defaultClient.authentications;
 const square = new SquareConnect.CheckoutApi();
